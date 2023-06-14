@@ -1,6 +1,6 @@
 <?php
 
-    namespace gift\app\services\utils;
+    namespace minipress\core\services;
 
     session_start();
 
