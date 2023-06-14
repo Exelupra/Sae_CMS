@@ -6,7 +6,11 @@ function listePlusRecent(){
 }
 
 function listeDeLaCategorie(id){
-    afficherCategories(load("/api/categories/" + id + "/articles"));
+    afficherArticles(load("/api/categories/" + id + "/articles"));
+}
+
+function listeArticleDeAuteur(id){
+    afficherArticles(load("/api/auteur/" + id + "/articles"));
 }
 
 function categories(){
@@ -18,4 +22,4 @@ document.addEventListener('DOMContentLoaded',function () {
     categories();
 });
 
-document.getElementById("categorie").addEventListener("click",listeDeLaCategorie);
+document.getElementById("categorie").addEventListener("click",listeDeLaCategorie(event.target.value));

@@ -9,7 +9,7 @@ export function afficherArticles(promesse){
                 article.titre + // /!\ Position du titre de l'article a confirmé!
                 "</h4> <h6>" +
                 article.date + // /!\ Position de la date a confirmé!
-                "</h6> <h6>" +
+                "</h6> <h6 id='auteur'>" +
                 article.auteur + // /!\ Position du nom de l'auteur a confirmé!
                 "</h6> </section>";
         })
@@ -21,7 +21,7 @@ export function afficherCategories(promesse){
     promesse.then(categories => {
         var html = "";
         categories.forEach(categorie => {
-            html += "<h5 id='" +
+            html += "<h5 id='categorie' value='" +
             categorie.id +
             "'>" +
             categorie.nom +
