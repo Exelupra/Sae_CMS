@@ -14,8 +14,9 @@
     },
     "autoload": {
       "psr-4" : {
-        "gift\\app\\" : "./src/",
-        "gift\\test\\" : "./test/"
+        "minipress\\core\\": "src/",
+        "minipress\\tests\\": "tests/",
+        "minipress\\app\\": "../MiniPress.app/"
       }
   
     }
