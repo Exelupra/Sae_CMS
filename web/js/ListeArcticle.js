@@ -1,10 +1,10 @@
-import {afficherArticles, afficherCategorie} from "./ui/Liste_ui";
+import {afficherArticles, afficherCategories} from "./ui/Liste_ui";
 import {load} from "./Fetcher";
 
 function listePlusRecent(){
-    afficherArticles(load( /*Lien a rajouter*/ ));
+    afficherArticles(load("/api/articles"));
 }
 
 function categories(){
-    afficherCategorie(load( /*Lien a rajouter*/ ));
+    afficherCategories(load("/api/categories"));
 }

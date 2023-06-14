@@ -17,7 +17,7 @@ export function afficherArticles(promesse){
     })
 }
 
-export function afficherCategorie(promesse){
+export function afficherCategories(promesse){
     promesse.then(categories => {
         var html = "";
         categories.forEach(categorie => {
