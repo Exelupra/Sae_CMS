@@ -8,6 +8,8 @@ export function afficherArticles(promesse){
                 "'></img> <h4>" +
                 article.titre + // /!\ Position du titre de l'article a confirmé!
                 "</h4> <h6>" +
+                article.date + // /!\ Position de la date a confirmé!
+                "</h6> <h6>" +
                 article.auteur + // /!\ Position du nom de l'auteur a confirmé!
                 "</h6> </section>";
         })
