@@ -1,0 +1,39 @@
+version: "3"
+
+networks:
+  Minipress.net:
+    driver: bridge
+
+services:
+  sql:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mysql
+      - MYSQL_USER=root
+    ports:
+      - "3603:3306"
+    networks:
+      Minipress.net:
+        aliases:
+          - sql.db
+          - sql326.net
+
+  adminer:
+    image: adminer
+    ports:
+      - "52802:8080"
+    networks:
+      - Minipress.net
+
+  php:
+    image: canals/php:8.1
+    ports:
+      - "5280:80"
+    volumes:
+      - ./web/MiniPress.core/src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - Minipress.net
+    depends_on:
+      - sql
