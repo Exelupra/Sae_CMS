@@ -1,5 +1,5 @@
-import {afficherArticles, afficherCategories} from "./ui/Liste_ui";
-import {load} from "./Fetcher";
+import {afficherArticles, afficherCategories, afficherContennuArticle} from "./ui/Liste_ui.js";
+import {load} from "./Fetcher.js";
 
 function listePlusRecent(){
     afficherArticles(load("/api/articles"));
@@ -7,6 +7,10 @@ function listePlusRecent(){
 
 function listeDeLaCategorie(id){
     afficherArticles(load("/api/categories/" + id + "/articles"));
+}
+
+function contenuArticle(article){
+    afficherContennuArticle(load(article))
 }
 
 function listeArticleDeAuteur(id){
