@@ -13,15 +13,13 @@ class Eloquent
 
         $db = new DB();
         $db->addConnection([
-            'driver' => 'pgsql',
+            'driver' => $config['driver'],
             'host' => $config['host'],
-            'port' => $config['port'],
             'database' => $config['database'],
             'username' => $config['username'],
             'password' => $config['password'],
             'charset' => $config['charset'],
-            'collation' => $config['collation'],
-            'prefix' => $config['prefix']
+            'collation' => $config['collation']
         ]);
         $db->setAsGlobal();
         $db->bootEloquent();

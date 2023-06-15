@@ -1,0 +1,13 @@
+{% extends 'header.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        <div class="article">
+            <h2>{{ article.titre }}</h2>
+            <p>{{ article.resume }}</p>
+            <p><a href="/article/{{ article.id }}">Read more</a></p>
+        </div>
+    {% endfor %}
+{% endblock %}

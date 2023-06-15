@@ -1,6 +1,6 @@
 <?php
 
-namespace gift\app\actions;
+namespace minipress\core\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,10 +18,6 @@ abstract class AbstractAction {
                 'css_dir' => 'css',
                 'imd_dir' => 'img',
                 'menu' => [
-                    ['url' => $routeContext->urlFor('categ'), 'libelle' => 'categories'],
-                    ['url' => $routeContext->urlFor('boxform'), 'libelle' => 'créer ma box'],
-                    ['url' => '#', 'libelle' => 'voir ma box'],
-                    ['url' => $routeContext->urlFor('gestioncatalogue'), 'libelle' => 'gerer le catalogue'],
                     ['url' => '#', 'libelle' => 'signin'],
                     ['url' => '#', 'libelle' => 'register']
                 ]

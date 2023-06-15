@@ -2,7 +2,7 @@
 
 namespace MiniPress\core\services;
 use Illuminate\Database\Eloquent\Collection;
-use MiniPress\core\models\Utilisateur;
+use minipress\core\models\Utilisateur;
 
 class UtilisateurService
 {
