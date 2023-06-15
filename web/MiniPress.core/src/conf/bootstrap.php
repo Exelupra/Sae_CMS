@@ -1,20 +1,28 @@
 <?php
+use Slim\Factory\AppFactory as AppFactory;
+use Slim\Views\TwigMiddleware as TwigMiddleware;
+use Slim\Views\Twig as Twig;
+use minipress\core\services\Eloquent as Eloquent;
+use Supabase\Client as SupabaseClient;
 
-    use Slim\Factory\AppFactory as AppFactory;
-    use Slim\Views\TwigMiddleware as TwigMiddleware;
-    use Slim\Views\Twig as Twig;
-    use minipress\core\services\Eloquent as Eloquent;
+$app = AppFactory::create();
 
+$app->addRoutingMiddleware();
+$app->addErrorMiddleware(true, false, false);
 
-    $app = AppFactory::create();
+Eloquent::init(__DIR__.'/conf.ini');
 
-    $app->addRoutingMiddleware();
-    $app->addErrorMiddleware(true, false, false);
+$twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
-    //Eloquent::init(__DIR__.'/../conf.ini');
+$app->add(TwigMiddleware::create($app, $twig));
 
-    $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
+// Créez une instance de SupabaseClient avec votre URL Supabase et votre clé d'API
+$supabaseUrl = 'VOTRE_URL_SUPABASE';
+$supabaseKey = 'VOTRE_CLE_API_SUPABASE';
+$supabase = new SupabaseClient($supabaseUrl, $supabaseKey);
 
-    $app->add(TwigMiddleware::create($app, $twig));
+// Ajoutez l'instance de SupabaseClient à l'application Slim
+$app->getContainer()->set(SupabaseClient::class, $supabase);
 
-    return $app;
+echo "bootstrap.php loaded\n";
+return $app;
