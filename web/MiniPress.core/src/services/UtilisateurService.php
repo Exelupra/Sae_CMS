@@ -7,7 +7,7 @@ use MiniPress\core\models\Utilisateur;
 class UtilisateurService
 {
 
-
+//
     public static function getUtilisateur(): Collection
     {
         return Utilisateur::all();

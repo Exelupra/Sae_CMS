@@ -15,7 +15,7 @@ Eloquent::init(__DIR__.'/conf.ini');
 $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
 $app->add(TwigMiddleware::create($app, $twig));
-
+echo "twig loaded\n";
 // Créez une instance de SupabaseClient avec votre URL Supabase et votre clé d'API
 $supabaseUrl = 'VOTRE_URL_SUPABASE';
 $supabaseKey = 'VOTRE_CLE_API_SUPABASE';
