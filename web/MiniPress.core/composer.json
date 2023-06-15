@@ -16,6 +16,7 @@
       "psr-4" : {
         "minipress\\core\\": "src/",
         "minipress\\tests\\": "tests/",
+        "minipress\\api\\": "api/",
         "minipress\\app\\": "../MiniPress.app/"
       }
   
