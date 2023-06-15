@@ -11,7 +11,7 @@
     $app->addRoutingMiddleware();
     $app->addErrorMiddleware(true, false, false);
 
-    Eloquent::init(__DIR__.'/conf.ini');
+    //Eloquent::init(__DIR__.'/../conf.ini');
 
     $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
