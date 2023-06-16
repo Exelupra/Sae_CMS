@@ -11,20 +11,24 @@ class GetArticle extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $sort = $request->getQueryParams()['sort'];
-        switch($sort){
-            case 'date-asc':
-                $article = \minipress\core\models\Article::orderBy('date', 'asc')->get();
-                break;
-            case 'date-desc':
-                $article = \minipress\core\models\Article::orderBy('date', 'desc')->get();
-                break;
-            case 'auteur':
-                $article = \minipress\core\models\Article::orderBy('auteur_id', 'asc')->get();
-                break;
-            default:
-                $article = \minipress\core\models\Article::all();
-                break;
+        try {
+            $sort = $request->getQueryParams()['sort'];
+            switch ($sort) {
+                case 'date-asc':
+                    $article = \minipress\core\models\Article::orderBy('date', 'asc')->get();
+                    break;
+                case 'date-desc':
+                    $article = \minipress\core\models\Article::orderBy('date', 'desc')->get();
+                    break;
+                case 'auteur':
+                    $article = \minipress\core\models\Article::orderBy('auteur', 'asc')->get();
+                    break;
+                default:
+                    $article = \minipress\core\models\Article::all();
+                    break;
+            }
+        } catch (\Exception $e) {
+            $article = \minipress\core\models\Article::all();
         }
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
