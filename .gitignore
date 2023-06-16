@@ -1,0 +1,9 @@
+
+
+# dossier vendor créé par composer
+web/MiniPress.core/vendor/
+web/MiniPress.core/composer.lock
+
+# dossier de configuration de l'application
+web/MiniPress.core/src/conf/conf.ini
+
