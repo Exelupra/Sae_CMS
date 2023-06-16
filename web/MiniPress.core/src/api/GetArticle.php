@@ -11,7 +11,7 @@ class GetArticle extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $article = \MiniPress\core\models\Article::all();
+        $article = \minipress\core\models\Article::all();
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
