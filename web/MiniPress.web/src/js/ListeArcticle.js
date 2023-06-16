@@ -5,11 +5,11 @@ function listePlusRecent(){
     afficherArticles(load("/api/articles"));
 }
 
-function listeDeLaCategorie(id){
+export function listeDeLaCategorie(id){
     afficherArticles(load("/api/categories/" + id + "/articles"));
 }
 
-function contenuArticle(article){
+export function contenuArticle(article){
     afficherContennuArticle(load(article))
 }
 
@@ -25,3 +25,6 @@ document.addEventListener('DOMContentLoaded',function () {
     listePlusRecent();
     categories();
 });
+
+listePlusRecent();
+categories();

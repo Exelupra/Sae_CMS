@@ -1,4 +1,4 @@
-import {contenuArticle, listeDeLaCategorie} from "../ListeArcticle";
+import {contenuArticle, listeDeLaCategorie} from "../ListeArcticle.js";
 
 export function afficherArticles(promesse){
     promesse.then(article => {
