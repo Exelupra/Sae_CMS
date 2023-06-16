@@ -12,7 +12,7 @@ class GetArticle extends AbstractAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         try {
-            $sort = $request->getQueryParams()['sort'];
+            $sort = $request->getQueryParams()['sort'] ?? null;
             switch ($sort) {
                 case 'date-asc':
                     $article = \minipress\core\models\Article::orderBy('date', 'asc')->get();
