@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniPress\core\api;
+namespace minipress\core\api;
 
 use minipress\core\actions\AbstractAction;
 use Psr\Http\Message\ResponseInterface as Response;
