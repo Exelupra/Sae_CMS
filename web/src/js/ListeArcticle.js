@@ -25,5 +25,3 @@ document.addEventListener('DOMContentLoaded',function () {
     listePlusRecent();
     categories();
 });
-
-document.getElementById("categorie").addEventListener("click",listeDeLaCategorie(event.target.value));

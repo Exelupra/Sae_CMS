@@ -1,9 +1,15 @@
-import {contenuArticle} from "../ListeArcticle";
+import {contenuArticle, listeDeLaCategorie} from "../ListeArcticle";
 
 export function afficherArticles(promesse){
     promesse.then(article => {
         document.getElementById(articles).innerHTML = "<h2>" + article.titre + "</h2>" +
         "<p>" + article.contenue + "</p>";
+
+        document.querySelectorAll("#articles section").forEach(section => {
+            section.addEventListener("click", function () {
+                contenuArticle(section.getAttribute("value"));
+            });
+        })
     })
 }
 
@@ -18,6 +24,12 @@ export function afficherCategories(promesse){
             "</h5>";
         })
         document.getElementById(categories).innerHTML = html;
+
+        document.querySelectorAll("#categories section").forEach(section => {
+            section.addEventListener("click", function () {
+                listeDeLaCategorie(section.getAttribute("value"));
+            });
+        })
     })
 }
 
