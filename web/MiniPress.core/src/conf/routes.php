@@ -6,17 +6,23 @@
     use \minipress\core\actions\MakeArticleAction;
     use \minipress\core\actions\MakeArticleProcessAction;
     use \minipress\core\actions\getAllArticlesAction;
+    use \minipress\core\actions\MakeCategorieAction;
+    use \minipress\core\actions\MakeCategorieProcessAction;
+    
 
     return function($app) {
 
         $app->get('/',function (Request $request, Response $response, $args) {
-            $response->getBody()->write('Hello World');
-            return $response;
+            $twig = Twig::fromRequest($request);
+            return $twig->render($response, 'home.twig', $args);
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
 
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
+        $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
 
     };

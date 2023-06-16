@@ -3,6 +3,7 @@
 {% block title %}Article{% endblock %}
 
 {% block content %}
+    <h3><a href="{{ url_for('makeArticle') }}">Créer un articles</a></h3>
     {% for article in articles %}
         <div class="article">
             <h2>{{ article.titre }}</h2>

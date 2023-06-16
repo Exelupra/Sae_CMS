@@ -14,9 +14,18 @@ class CategorieService {
         return Categorie::find($id);
     }
 
-    public static function createCategorie($name) {
-        $categorie = new Categorie();
-        $categorie->name = $name;
+    public static function makeCategorie($data) {
+        $filterLibelle = filter_var($data['libelle'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $filterDescription = filter_var($data['description'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if ($data['libelle'] != $filterLibelle) {
+            throw new \Exception("Erreur de saisie");
+        }
+        if ($data['description'] != $filterDescription) {
+            throw new \Exception("Erreur de saisie");
+        }
+
+        $categorie = new Categorie($data);
         $categorie->save();
     }
 

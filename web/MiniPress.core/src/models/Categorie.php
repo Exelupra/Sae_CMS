@@ -12,6 +12,8 @@ class Categorie extends Model{
 
     public $timestamps = false;
 
+    protected $fillable = ['libelle', 'description'];
+
     public function articles(){
         return $this->hasMany(Article::class, 'cat_id');
     }
