@@ -24,7 +24,7 @@ class MakeArticleProcessAction extends AbstractAction {
         }
 
         $data = [
-            'titre' => $post_data['titre'] ?? 
+            'titre' => $post_data['titre'] ??
                 throw new HttpBadRequestException($request, "titre manquant"),
             'resume' => $post_data['resume'] ??
                 throw new HttpBadRequestException($request, "resume manquant"),
