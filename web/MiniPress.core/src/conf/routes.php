@@ -16,6 +16,7 @@ use Slim\Views\Twig;
     use \minipress\core\actions\MakeCategorieProcessAction;
     use \minipress\core\actions\CreationUtilisateurAction;
     use \minipress\core\actions\CreationUtilisateurProcess;
+    use \minipress\core\actions\ConnectUtilisateurProcess;
     
 
     return function($app) {
@@ -43,4 +44,5 @@ use Slim\Views\Twig;
         $app->post('/inscription',CreationUtilisateurProcess::class)->setName('inscriptionProcess');
 
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
+        $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
     };
