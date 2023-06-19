@@ -1,40 +1,40 @@
 <?php
+
 namespace minipress\core\actions;
-use minipress\core\models\Utilisateur;
-use minipress\core\services\ArticleService;
+
 use minipress\core\services\CsrfService;
 use minipress\core\services\UtilisateurService;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Routing\RouteContext;
 
-class CreationUtilisateurProcess extends \minipress\core\actions\AbstractAction{
-
-public function __invoke(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args): \Psr\Http\Message\ResponseInterface
+class CreationUtilisateurProcess extends AbstractAction
 {
-$post_data = $request->getParsedBody();
 
-$token = $post_data['csrf'] ?? null;
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $post_data = $request->getParsedBody();
 
-CsrfService::check($token);
+        $token = $post_data['csrf'] ?? null;
 
-
-
-$data = [
- 'id' => $post_data['csrf'] ??
-throw new HttpBadRequestException($request, "id manquant"),
-'mail' => $post_data['mail'] ??
-throw new HttpBadRequestException($request, "mail manquant"),
-'mdp' => $post_data['mdp'] ??
-throw new HttpBadRequestException($request, "mdp manquant"),
-];
+        CsrfService::check($token);
 
 
+        $data = [
+            'id' => $post_data['csrf'] ??
+                throw new HttpBadRequestException($request, "id manquant"),
+            'mail' => $post_data['mail'] ??
+                throw new HttpBadRequestException($request, "mail manquant"),
+            'mdp' => $post_data['mdp'] ??
+                throw new HttpBadRequestException($request, "mdp manquant"),
+        ];
 
 
-$utilisateur = UtilisateurService::createUtilisateur($data['id'],$data['mail'], $data['mdp']);
+        UtilisateurService::createUtilisateur($data['id'], $data['mail'], $data['mdp']);
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
         $url = $routeParser->urlFor('home');
-        return $response->withHeader('Location',$url)->withStatus(302);
+        return $response->withHeader('Location', $url)->withStatus(302);
 
-}
+    }
 }
