@@ -12,8 +12,15 @@ html{
     animation: introHtml 1s ease;
 }
 
-.space{
+#content{
     padding-top: 15px;
+    padding-bottom: 15px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 h1{
