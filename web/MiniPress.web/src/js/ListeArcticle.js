@@ -2,11 +2,11 @@ import {afficherArticles, afficherCategories, afficherContennuArticle} from "./u
 import {load} from "./Fetcher.js";
 
 function listePlusRecent(){
-    afficherArticles(load("/api/articles"));
+    afficherArticles(load("/articles"));
 }
 
 export function listeDeLaCategorie(id){
-    afficherArticles(load("/api/categories/" + id + "/articles"));
+    afficherArticles(load("/categories/" + id + "/articles"));
 }
 
 export function contenuArticle(article){
@@ -14,11 +14,11 @@ export function contenuArticle(article){
 }
 
 function listeArticleDeAuteur(id){
-    afficherArticles(load("/api/auteur/" + id + "/articles"));
+    afficherArticles(load("/auteur/" + id + "/articles"));
 }
 
 function categories(){
-    afficherCategories(load("/api/categories"));
+    afficherCategories(load("/categories"));
 }
 
 document.addEventListener('DOMContentLoaded',function () {
