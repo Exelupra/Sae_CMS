@@ -21,7 +21,7 @@ class GetArticle extends AbstractAction
                     $article = \minipress\core\models\Article::orderBy('date', 'desc')->get();
                     break;
                 case 'auteur':
-                    $article = \minipress\core\models\Article::orderBy('auteur', 'asc')->get();
+                    $article = \minipress\core\models\Article::load("utilisateur")->orderBy('mail', 'asc')->get();
                     break;
                 default:
                     $article = \minipress\core\models\Article::all();
