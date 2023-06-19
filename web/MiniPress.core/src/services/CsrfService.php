@@ -2,8 +2,6 @@
 
     namespace minipress\core\services;
 
-    session_start();
-
     class CsrfService {
 
         public static function generate(){
