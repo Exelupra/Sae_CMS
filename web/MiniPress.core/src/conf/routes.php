@@ -1,11 +1,11 @@
 <?php
 
 use minipress\core\actions\ConnectUtilisateur;
-use MiniPress\core\api\GetArticle;
-use MiniPress\core\api\GetArticleByAuteur;
-use MiniPress\core\api\GetArticleByCategorie;
-use MiniPress\core\api\GetArticlesById;
-use MiniPress\core\api\GetCategorie;
+use minipress\core\api\GetArticle;
+use minipress\core\api\GetArticleByAuteur;
+use minipress\core\api\GetArticleByCategorie;
+use minipress\core\api\GetArticlesById;
+use minipress\core\api\GetCategorie;
 use Slim\Views\Twig;
     use Psr\Http\Message\ResponseInterface as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
