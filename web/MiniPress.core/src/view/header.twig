@@ -6,8 +6,14 @@
     <nav>
         <div><a href="{{ url_for('home') }}">Accueil</a></div>
         <div><a href="{{ url_for('article') }}">Articles</a></div>
-        <div><a href="{{ url_for('inscription') }}">Inscription</a></div>
-        <div><a href="{{ url_for('connexion') }}">Connexion</a></div>
+        
+        {% if isset %}
+            <div><a href="{{ url_for('deconnexion') }}">Déconnexion</a></div>
+        {% else %}
+            <div><a href="{{ url_for('inscription') }}">Inscription</a></div>
+            <div><a href="{{ url_for('connexion') }}">Connexion</a></div>
+        {% endif %}
+        
     </nav>
 </header>
 
