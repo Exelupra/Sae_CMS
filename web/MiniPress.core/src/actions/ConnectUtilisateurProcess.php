@@ -39,9 +39,11 @@ class ConnectUtilisateurProcess extends AbstractAction
            return $response->withHeader('Location', $url)->withStatus(302);
        }else {
 
+
+
            //mettre user en json
-           $userJson = json_encode($user);
-           $_SESSION['user'] =$userJson;
+           $userJson = json_encode($authService->getUtilisateurByMail($mail));
+           $_SESSION['user'] = $userJson;
            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
            $url = $routeParser->urlFor('home');
            return $response->withHeader('Location', $url)->withStatus(302);
