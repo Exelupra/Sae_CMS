@@ -13,8 +13,9 @@ class getAllArticlesAction extends AbstractAction {
                 $articles = ArticleService::getAllArticle();
                 $routeContext = \Slim\Routing\RouteContext::fromRequest($request);
                 $routeParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
+                (isset($_SESSION['user']))? $isset = true : $isset = false;
                 $twig = Twig::fromRequest($request);
-                return $twig->render($response, 'allArticle.twig', ['articles' => $articles] );
+                return $twig->render($response, 'allArticle.twig', ['articles' => $articles, 'isset' => $isset] );
     }
 
 }

@@ -4,7 +4,7 @@ use Slim\Views\TwigMiddleware as TwigMiddleware;
 use Slim\Views\Twig as Twig;
 use minipress\core\services\Eloquent as Eloquent;
 //use Supabase\Client as SupabaseClient;
-
+session_start();
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();

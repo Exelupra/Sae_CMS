@@ -17,13 +17,18 @@ use Slim\Views\Twig;
     use \minipress\core\actions\CreationUtilisateurAction;
     use \minipress\core\actions\CreationUtilisateurProcess;
     use \minipress\core\actions\ConnectUtilisateurProcess;
+    use \minipress\core\services\UtilisateurService;
     
 
     return function($app) {
 
-        $app->get('/',function (Request $request, Response $response, $args) {
+        $app->get('[/]',function (Request $request, Response $response, $args) {
+                $user = json_decode($_SESSION['user']);
             $twig = Twig::fromRequest($request);
-            return $twig->render($response, 'home.twig', $args);
+            if($user != null){
+                return $twig->render($response, 'home.twig', ['user' => $user]);
+            }
+            return $twig->render($response, 'home.twig');
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
