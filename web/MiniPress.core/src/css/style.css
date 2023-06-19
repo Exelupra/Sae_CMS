@@ -12,6 +12,10 @@ html{
     animation: introHtml 1s ease;
 }
 
+.space{
+    padding-top: 15px;
+}
+
 h1{
     color: white;
     background: #0c5460;
@@ -27,9 +31,6 @@ p{
     text-align: center;
 }
 
-.intro{
-    padding-top: 15px;
-}
 
 header{
     position:fixed;
