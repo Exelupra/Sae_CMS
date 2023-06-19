@@ -7,7 +7,19 @@ use minipress\core\models\Utilisateur;
 class UtilisateurService
 {
 
-//
+    public static function authenticate(string $email,
+                                        string $passwd2check): bool {
+        //on veut recuperer verifer l'utilisateur existe
+        $utilisateur = Utilisateur::where('mail', $email)->first();
+        if (!$utilisateur)
+            throw new AuthException("Auth error : invalid credentials");
+        $hash = $utilisateur->mdp;
+        if (!password_verify($passwd2check, $hash))
+            throw new AuthException("Auth error : invalid credentials");
+        //retourne true si l'utilisateur existe et que le mot de passe est bon
+        return true;
+    }
+
     public static function getUtilisateur(): Collection
     {
         return Utilisateur::all();
@@ -23,16 +35,21 @@ class UtilisateurService
         return Utilisateur::where('mail', $mail)->first();
     }
 
-    public static function createUtilisateur($mail, $mdp, $admin)
+    public static function createUtilisateur($id,$mail, $mdp)
     {
         $utilisateur = new Utilisateur();
-        $utilisateur->id = $_SESSION['csrf_token'];
+        $utilisateur->id = $id;
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL))
+            throw new AuthException(" error : invalid user email");
+
         $utilisateur->mail = $mail;
-        $utilisateur->mdp = $mdp;
-        $utilisateur->admin = $admin;
+        $hash = password_hash($mdp, PASSWORD_DEFAULT, ['cost'=>12]);
+        $utilisateur->mdp = $hash;
+        $utilisateur->admin = false;
         $utilisateur->save();
         return $utilisateur;
     }
+
 
     public static function deleteUtilisateur($id)
     {

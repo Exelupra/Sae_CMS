@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniPress\core\models;
+namespace minipress\core\models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Utilisateur extends Model {
 //
     protected $table = 'utilisateur';
-    protected $primaryKey = 'string';
-    protected $keyType = 'int';
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
     public $incrementing = true;
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'mail',
         'mdp',
         'admin',
