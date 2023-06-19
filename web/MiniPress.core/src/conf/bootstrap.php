@@ -14,6 +14,8 @@ Eloquent::init(__DIR__.'/conf.ini');
 
 $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
+$twig->getEnvironment()->addGlobal('isset', isset($_SESSION['user']));
+
 $app->add(TwigMiddleware::create($app, $twig));
 
 // Créez une instance de SupabaseClient avec votre URL Supabase et votre clé d'API

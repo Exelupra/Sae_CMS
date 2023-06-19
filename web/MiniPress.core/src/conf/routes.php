@@ -23,6 +23,7 @@ use Slim\Views\Twig;
     return function($app) {
 
         $app->get('[/]',function (Request $request, Response $response, $args) {
+            var_dump(isset($_SESSION['user']));
                 $user = json_decode($_SESSION['user']);
             $twig = Twig::fromRequest($request);
             if($user != null){
@@ -50,4 +51,6 @@ use Slim\Views\Twig;
 
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
+
+        $app->post('/deconnexion', DisconnectUtilisateur::class)->setName('deconnexion');
     };
