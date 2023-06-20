@@ -8,6 +8,11 @@
     {% else %}
         <h3><a href="{{ url_for('makeArticle') }}">Créer un articles</a></h3>
     {% endif %}
+    <select id="categorie">
+    {% for categorie in categories %}
+        <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+    {% endfor %}
+    </select>
     {% for article in articles %}
         <div class="article">
             <h2>{{ article.titre }}</h2>
@@ -15,4 +20,5 @@
             <p><a href="{{ url_for('articleById',{'id': article.id}) }}">Read more</a></p>
         </div>
     {% endfor %}
+    <script type="module" src="/../module/categoriesSelect.js"></script>
 {% endblock %}
