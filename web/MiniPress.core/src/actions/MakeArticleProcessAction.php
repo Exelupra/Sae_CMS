@@ -30,11 +30,17 @@ class MakeArticleProcessAction extends AbstractAction {
                 throw new HttpBadRequestException($request, "resume manquant"),
             'contenu' => $post_data['contenu'] ?? 
                 throw new HttpBadRequestException($request, "contenu manquante"),
-            'categorie' => $post_data['categorie'] ??
-                throw new HttpBadRequestException($request, "categorie manquante"),
+            'cat_id' => $post_data['categorie'],
             'auteur' => $post_data['auteur'] ??
                 throw new HttpBadRequestException($request, "auteur manquant"),
+            'date_de_creation' => new \DateTime(),
         ];
+
+        $action = $post_data['action'];
+
+        if($action === 'Créer et publier l\'article'){
+            $data['date_de_publication'] = new \DateTime();
+        }
 
         $article = ArticleService::makeArticle($data);
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();

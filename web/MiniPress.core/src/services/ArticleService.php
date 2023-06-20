@@ -7,7 +7,11 @@ use minipress\core\models\Article;
 class ArticleService {
 
     public static function getAllArticle() {
-        return \minipress\core\models\Article::all()->toArray();
+        return \minipress\core\models\Article::whereNotNull('date_de_publication')->get()->toArray();
+    }
+
+    public static function getUnpublished() {
+        return \minipress\core\models\Article::whereNull('date_de_publication')->get()->toArray();
     }
 
     public static function getArticleById($id) {
@@ -15,9 +19,9 @@ class ArticleService {
     }
 
     public static function makeArticle($article){
-        $filterTitre = filter_var($article['titre'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $filterResume = filter_var($article['resume'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $filterContenu = filter_var($article['contenu'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $filterTitre = filter_var($article['titre']);
+        $filterResume = filter_var($article['resume']);
+        $filterContenu = filter_var($article['contenu']);
 
         if($article['titre'] != $filterTitre){
             throw new \Exception("Erreur de saisie");
