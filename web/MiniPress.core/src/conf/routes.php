@@ -1,6 +1,7 @@
 <?php
 
 use minipress\core\actions\ConnectUtilisateur;
+use minipress\core\actions\DisconnectUtilisateurAction;
 use minipress\core\api\GetArticle;
 use minipress\core\api\GetArticleByAuteur;
 use minipress\core\api\GetArticleByCategorie;
@@ -52,5 +53,5 @@ use Slim\Views\Twig;
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
 
-        $app->post('/deconnexion', DisconnectUtilisateur::class)->setName('deconnexion');
+        $app->post('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
     };
