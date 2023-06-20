@@ -10,6 +10,14 @@ class GetJsHtml extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        return $response->withHeader('Location', '/../../../MiniPress.web/ListeArticle.html')->withStatus(200);
+        $filePath = __DIR__ . '/../../../MiniPress.web/ListeArticle.html';
+        if (file_exists($filePath)) {
+            $content = file_get_contents($filePath);
+            $response->getBody()->write($content);
+            return $response;
+        } else {
+            $response->getBody()->write('Fichier HTML introuvable');
+            return $response->withStatus(404);
+        }
     }
 }
