@@ -1,19 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_html/flutter_html.dart';
-import 'dart:convert';
-
 class Article {
+  final int id;
+  final String title;
+  final String summary;
+  final String content;
+  final DateTime publicationDate;
+  final DateTime creationDate;
+  final String image;
+  final int categoryId;
+  final String author;
 
-Future<Map<String, dynamic>> fetchData() async {
-  String apiUrl = ''; 
-  http.Response response = await http.get(Uri.parse(apiUrl));
+  Article({
+    required this.id,
+    required this.title,
+    required this.summary,
+    required this.content,
+    required this.publicationDate,
+    required this.creationDate,
+    required this.image,
+    required this.categoryId,
+    required this.author,
+  });
 
-  if (response.statusCode == 200) {
-    return json.decode(response.body);
-  } else {
-    throw Exception('Erreur lors du chargement des données');
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+      id: json['id'] ?? 0,
+      title: json['titre'] ?? '',
+      summary: json['resume'] ?? '',
+      content: json['contenu'] ?? '',
+      publicationDate: json['date_de_publication'] != null
+          ? DateTime.parse(json['date_de_publication'])
+          : DateTime.now(),
+      creationDate: json['date_de_creation'] != null
+          ? DateTime.parse(json['date_de_creation'])
+          : DateTime.now(),
+      image: json['image'] ?? '',
+      categoryId: json['cat_id'] ?? 0,
+      author: json['auteur'] ?? '',
+    );
   }
-}
-
 }
