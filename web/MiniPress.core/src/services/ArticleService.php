@@ -54,15 +54,13 @@ class ArticleService {
         $article->save();
     }
 
-    public static function publish($id){
+    public static function togglePublish($id){
         $article = Article::find($id);
-        $article->date_de_publication = date('Y-m-d H:i:s');
-        $article->save();
-    }
-
-    public static function depublish($id){
-        $article = Article::find($id);
-        $article->date_de_publication = null;
+        if($article->date_de_publication == null){
+            $article->date_de_publication = date('Y-m-d H:i:s');
+        } else {
+            $article->date_de_publication = null;
+        }
         $article->save();
     }
 }

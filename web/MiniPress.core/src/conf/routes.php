@@ -43,15 +43,15 @@ use Slim\Views\Twig;
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
         $app->get('/article/{id:\d+}[/]', GetArticleByIdAction::class)->setName('articleById');
+        $app->post('/article/{id:\d+}[/]', TogglePublish::class)->setName('togglePublishId');
 
         $app->get('/myarticles[/]', getMyArticlesAction::class)->setName('articleByUser');
         $app->post('/myarticles[/]', TogglePublish::class)->setName('togglePublish');
 
-        $app->get('/myarticles/{id:[a-zA-Z0-9]+}[/]', GetArticleByUserIdAction::class)->setName('myArticleById');
-        $app->post('/myarticles/{id:[a-zA-Z0-9]+}[/]', TogglePublish::class)->setName('togglePublishFromId');
-
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->post('/article/{id}/update',UpdateArticleAction::class)->setName('updateArticle');
 
         $app->post('/article/{id:[a-zA-Z0-9]+}/delete', DeleteArticle::class)->setName('deleteArticle');
 

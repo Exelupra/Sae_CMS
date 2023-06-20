@@ -7,13 +7,48 @@
         <h2>{{ article.titre }}</h2>
         {% if article.date_de_publication %}
             <p>Publié par {{ auteur.mail }} le {{ article.date_de_publication }}</p>
+        {% else %}
+            <p>Non publié, créé par {{ auteur.mail }} le {{ article.date_de_creation }}</p>
         {% endif %}
         <br><br>
-        <p>{{ article.contenu }}</p>
+        {%if user.id == auteur.id %}
+            <form action="{{ url_for('updateArticle', {'id':article.id}) }}" method="post">
+                <input type="text" name="titre" value="{{ article.titre }}"><br>
+                <input type="text" name="resume" value="{{ article.resume }}"><br>
+                <textarea name="contenu" id="" cols="30" rows="10">{{ article.contenu }}</textarea><br>
+                <input type="text" name="image" value="{{ article.image }}"><br>
+                <select name="cat_id" id="cat_id">
+                    {% for categorie in categories %}
+                        {% if categorie.id == article.categorie_id %}
+                            <option value="{{ categorie.id }}" selected>{{ categorie.nom }}</option>
+                        {% else %}
+                            <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+                        {% endif %}
+                    {% endfor %}
+                <input type="submit" value="Modifier">
+            </form>
+            <form action="{{ url_for('deleteArticle', {'id':article.id}) }}" method="post">
+                <input type="submit" value="Supprimer">
+            </form>
+            {% if article.date_de_publication %}
+                <form action="{{ url_for('togglePublishId', {'id':article.id}) }}" method="post">
+                    <input type="submit" value="Dépublier">
+                </form>
+            {% else %}
+                <form action="{{ url_for('togglePublishId', {'id':article.id}) }}" method="post">
+                    <input type="submit" value="Publier">
+                </form>
+            {% endif %}
+        
+        {% else %}
+            <h2>{{ article.titre }}</h2>
+            <p>{{ article.contenu }}</p>
 
-        {% if article.image %}
-            <img src="{{ article.image }}" alt="image de l'article">
+            {% if article.image %}
+                <img src="{{ article.image }}" alt="image de l'article">
+            {% endif %}
         {% endif %}
-
+        
+    <div>
 {% endblock %}
 
