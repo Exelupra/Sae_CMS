@@ -88,4 +88,9 @@ class ArticleService {
         $article->cat_id = $data['cat_id'];
         $article->save();
     }
+
+    public static function delete($id){
+        $article = Article::find($id);
+        $article->delete();
+    }
 }

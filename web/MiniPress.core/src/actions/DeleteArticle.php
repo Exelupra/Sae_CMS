@@ -10,7 +10,10 @@ use Slim\Views\Twig;
 class DeleteArticle extends AbstractAction {
 
     public function __invoke(Request $request , Response $response , array $args): Response{
-        return $response;
+        ArticleService::delete($args['id']);
+        $routerParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
+        $url = $routerParser->urlFor('allArticles');
+        return $response->withHeader('Location', $url)->withStatus(302);
     }
 
 }
