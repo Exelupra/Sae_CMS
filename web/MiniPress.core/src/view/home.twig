@@ -4,5 +4,7 @@
 <link rel="stylesheet" href="../src/css/style.css">
 {% include 'header.twig' %}
 
-<h1>Utilisateur : {{ user.mail }}</h1>
+{% if user %}
+    <h1>Utilisateur : {{ user.mail }}</h1>
+{% endif %}
 

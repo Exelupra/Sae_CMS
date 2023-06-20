@@ -13,11 +13,11 @@ class getMyArticlesAction extends AbstractAction {
     public function __invoke(Request $request , Response $response , array $args): Response{
                 $published = ArticleService::getPublishedByUser(json_decode($_SESSION['user']));
                 $unpublished = ArticleService::getUnpublishedByUser(json_decode($_SESSION['user']));
-                $categories = CategorieService::getAllCategories();
+                
 
                 $twig = Twig::fromRequest($request);
                 return $twig->render($response, 'articleByUser.twig', 
-                ['published' => $published, 'unpublished' => $unpublished, 'categories' => $categories] );
+                ['published' => $published, 'unpublished' => $unpublished] );
     }
 
 }

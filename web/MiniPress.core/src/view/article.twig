@@ -20,11 +20,12 @@
                 <select name="cat_id" id="cat_id">
                     {% for categorie in categories %}
                         {% if categorie.id == article.categorie_id %}
-                            <option value="{{ categorie.id }}" selected>{{ categorie.nom }}</option>
+                            <option value="{{ categorie.id }}" selected>{{ categorie.libelle }}</option>
                         {% else %}
-                            <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+                            <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
                         {% endif %}
                     {% endfor %}
+                </select><br>
                 <input type="submit" value="Modifier">
             </form>
             <form action="{{ url_for('deleteArticle', {'id':article.id}) }}" method="post">

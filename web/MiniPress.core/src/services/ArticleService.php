@@ -63,4 +63,29 @@ class ArticleService {
         }
         $article->save();
     }
+
+
+    public static function updateArticle($data){
+        $filterTitre = filter_var($data['titre']);
+        $filterResume = filter_var($data['resume']);
+        $filterContenu = filter_var($data['contenu']);
+
+        if($data['titre'] != $filterTitre){
+            throw new \Exception("Erreur de saisie");
+        }
+        if($data['resume'] != $filterResume){
+            throw new \Exception("Erreur de saisie");
+        }
+        if($data['contenu'] != $filterContenu){
+            throw new \Exception("Erreur de saisie");
+        }
+
+        $article = Article::find($data['id']);
+        $article->titre = $data['titre'];
+        $article->resume = $data['resume'];
+        $article->contenu = $data['contenu'];
+        $article->image = $data['image'];
+        $article->cat_id = $data['cat_id'];
+        $article->save();
+    }
 }

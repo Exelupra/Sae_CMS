@@ -7,11 +7,11 @@ use minipress\core\models\Categorie;
 class CategorieService {
 
     public static function getAllCategories() {
-        return Categorie::all();
+        return Categorie::all()->toArray();
     }
 
     public static function getCategorieById($id) {
-        return Categorie::find($id);
+        return Categorie::find($id)->toArray();
     }
 
     public static function makeCategorie($data) {

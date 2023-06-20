@@ -22,7 +22,7 @@ use Slim\Views\Twig;
     use \minipress\core\actions\PublishArticleAction;
     use \minipress\core\actions\PublishArticleProcessAction;
     use \minipress\core\actions\GetArticleByIdAction;
-    use \minipress\core\actions\GetArticleByUserIdAction;
+    use \minipress\core\actions\UpdateArticleAction;
     use \minipress\core\actions\getMyArticlesAction;
     use \minipress\core\actions\TogglePublish;
     use \minipress\core\actions\DeleteArticle;
@@ -32,8 +32,10 @@ use Slim\Views\Twig;
     return function($app) {
 
         $app->get('[/]',function (Request $request, Response $response, $args) {
-            
-            $user = json_decode($_SESSION['user']);
+            $user = null;
+            if(isset($_SESSION['user'])){
+                $user = json_decode($_SESSION['user']);
+            }
             $twig = Twig::fromRequest($request);
             if($user != null){
                 return $twig->render($response, 'home.twig', ['user' => $user]);
@@ -75,5 +77,5 @@ use Slim\Views\Twig;
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
 
-        $app->post('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
+        $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
     };
