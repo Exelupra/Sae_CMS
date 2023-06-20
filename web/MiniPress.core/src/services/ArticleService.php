@@ -65,4 +65,9 @@ class ArticleService {
         $article->date_de_publication = null;
         $article->save();
     }
+
+    public static function delete($id){
+        $article = Article::find($id);
+        $article->delete();
+    }
 }

@@ -10,6 +10,7 @@ use Slim\Views\Twig;
 class DeleteArticle extends AbstractAction {
 
     public function __invoke(Request $request , Response $response , array $args): Response{
+        ArticleService::delete($args['id']);
         return $response;
     }
 
