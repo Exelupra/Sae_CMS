@@ -8,7 +8,8 @@
         <div><a href="{{ url_for('home') }}">Accueil</a></div>
         <div><a href="{{ url_for('article') }}">Articles</a></div>
 
-        {% if isset %}
+        {% if user %}
+            <div><a href="{{ url_for('articleByUser') }}">Mes Articles</a></div>
             <div><a href="{{ url_for('deconnexion') }}">Déconnexion</a></div>
         {% else %}
             <div><a href="{{ url_for('inscription') }}">Inscription</a></div>

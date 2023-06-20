@@ -18,7 +18,15 @@ use Slim\Views\Twig;
     use \minipress\core\actions\CreationUtilisateurAction;
     use \minipress\core\actions\CreationUtilisateurProcess;
     use \minipress\core\actions\ConnectUtilisateurProcess;
-    use \minipress\core\services\UtilisateurService;
+    use \minipress\core\actions\getUnpublishedArticlesAction;
+    use \minipress\core\actions\PublishArticleAction;
+    use \minipress\core\actions\PublishArticleProcessAction;
+    use \minipress\core\actions\GetArticleByIdAction;
+    use \minipress\core\actions\GetArticleByUserIdAction;
+    use \minipress\core\actions\getMyArticlesAction;
+    use \minipress\core\actions\TogglePublish;
+    use \minipress\core\actions\DeleteArticle;
+
     
 
     return function($app) {
@@ -34,10 +42,18 @@ use Slim\Views\Twig;
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
-        $app->get('/article/{id:\d+}[/]', GetArticlesByIdAction::class)->setName('articleById');
+        $app->get('/article/{id:\d+}[/]', GetArticleByIdAction::class)->setName('articleById');
+
+        $app->get('/myarticles[/]', getMyArticlesAction::class)->setName('articleByUser');
+        $app->post('/myarticles[/]', TogglePublish::class)->setName('togglePublish');
+
+        $app->get('/myarticles/{id:[a-zA-Z0-9]+}[/]', GetArticleByUserIdAction::class)->setName('myArticleById');
+        $app->post('/myarticles/{id:[a-zA-Z0-9]+}[/]', TogglePublish::class)->setName('togglePublishFromId');
 
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->post('/article/{id:[a-zA-Z0-9]+}/delete', DeleteArticle::class)->setName('deleteArticle');
 
         $app->get('/article/unpublished[/]', getUnpublishedArticlesAction::class)->setName('unpublished');
 

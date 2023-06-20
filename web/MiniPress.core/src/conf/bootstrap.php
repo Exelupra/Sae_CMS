@@ -14,7 +14,7 @@ Eloquent::init(__DIR__.'/conf.ini');
 
 $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
-$twig->getEnvironment()->addGlobal('isset', isset($_SESSION['user']));
+$twig->getEnvironment()->addGlobal('user', json_decode($_SESSION['user']));
 
 $app->add(TwigMiddleware::create($app, $twig));
 

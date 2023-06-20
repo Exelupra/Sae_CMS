@@ -10,7 +10,7 @@ use Slim\Views\Twig;
 class getAllArticlesAction extends AbstractAction {
 
     public function __invoke(Request $request , Response $response , array $args): Response{
-                $articles = ArticleService::getAllArticle();
+                $articles = ArticleService::getPublished();
                 $routeContext = \Slim\Routing\RouteContext::fromRequest($request);
                 $routeParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
                 (isset($_SESSION['user']))? $isset = true : $isset = false;

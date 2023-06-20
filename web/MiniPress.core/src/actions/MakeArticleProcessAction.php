@@ -14,7 +14,8 @@ class MakeArticleProcessAction extends AbstractAction {
 
     public function __invoke(Request $request, Response $response, array $args):Response{
         $post_data = $request->getParsedBody();
-        var_dump($post_data['csrf']);
+        
+        $publish = false;
 
         $token = $post_data['csrf'] ?? null;
         try{
@@ -31,18 +32,17 @@ class MakeArticleProcessAction extends AbstractAction {
             'contenu' => $post_data['contenu'] ?? 
                 throw new HttpBadRequestException($request, "contenu manquante"),
             'cat_id' => $post_data['categorie'],
-            'auteur' => $post_data['auteur'] ??
+            'auteur' => json_decode($_SESSION['user'])->id ??
                 throw new HttpBadRequestException($request, "auteur manquant"),
-            'date_de_creation' => new \DateTime(),
         ];
 
         $action = $post_data['action'];
 
         if($action === 'Créer et publier l\'article'){
-            $data['date_de_publication'] = new \DateTime();
+            $publish = true;
         }
 
-        $article = ArticleService::makeArticle($data);
+        $article = ArticleService::makeArticle($data,$publish);
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
         $url = $routeParser->urlFor('article');
         return $response->withHeader('Location',$url)->withStatus(302);
