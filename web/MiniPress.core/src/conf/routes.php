@@ -63,5 +63,5 @@ use Slim\Views\Twig;
 
         $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
 
-        $app->get('/js', GetJsHtml::class)->setName('js');
+        $app->get('/js/{path:.+}', GetJsHtml::class)->setName('js');
     };
