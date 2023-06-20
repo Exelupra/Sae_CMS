@@ -1,6 +1,7 @@
 <?php
 
 use minipress\core\actions\ConnectUtilisateur;
+use minipress\core\actions\GetJsHtml;
 use minipress\core\api\GetArticle;
 use minipress\core\api\GetArticleByAuteur;
 use minipress\core\api\GetArticleByCategorie;
@@ -50,4 +51,6 @@ use Slim\Views\Twig;
 
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
+
+        $app->get('/js', GetJsHtml::class)->setName('js');
     };
