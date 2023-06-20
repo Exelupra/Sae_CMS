@@ -33,6 +33,7 @@ services:
     volumes:
       - ./web/MiniPress.core:/var/www/html
       - ./web/MiniPress.core/src:/var/www/src
+      - ./web/MiniPress.web:/var/www/web
     working_dir: /var/www/html
     networks:
       - Minipress.net
