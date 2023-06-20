@@ -39,13 +39,13 @@ export function afficherContennuArticle(promesse){
         articles.forEach(article => {
             html += "<section id='article' value='" + article.href + "'>" +
                 "<img src='" +
-                article.lien + // /!\ Position du lien de l'image a confirmé!
+                article.image +
                 "'></img> <h4>" +
-                article.titre + // /!\ Position du titre de l'article a confirmé!
+                article.titre +
                 "</h4> <h6>" +
-                article.date + // /!\ Position de la date a confirmé!
+                article.date_de_creation +
                 "</h6> <h6 id='auteur'>" +
-                article.auteur + // /!\ Position du nom de l'auteur a confirmé!
+                article.auteur +
                 "</h6> </section>";
         })
         document.getElementById(articles).innerHTML = html;
