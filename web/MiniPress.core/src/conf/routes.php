@@ -21,6 +21,7 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getUnpublishedArticlesAction;
     use \minipress\core\actions\getUnpublishedArticlesProcessAction;
     use \minipress\core\actions\GetJsHtml;
+    use \minipress\core\actions\GetJs;
     use \minipress\core\services\UtilisateurService;
 
 
@@ -63,5 +64,6 @@ use Slim\Views\Twig;
 
         $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
 
-        $app->get('/js/{path:.+}', GetJsHtml::class)->setName('js');
+        $app->get('/js/{path:.+}', GetJs::class)->setName('js');
+        $app->get('/jsHtml', GetJsHtml::class)->setName('js');
     };
