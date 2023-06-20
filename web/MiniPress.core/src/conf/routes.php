@@ -1,7 +1,6 @@
 <?php
 
 use minipress\core\actions\ConnectUtilisateur;
-use minipress\core\actions\GetJsHtml;
 use minipress\core\api\GetArticle;
 use minipress\core\api\GetArticleByAuteur;
 use minipress\core\api\GetArticleByCategorie;
@@ -18,13 +17,17 @@ use Slim\Views\Twig;
     use \minipress\core\actions\CreationUtilisateurAction;
     use \minipress\core\actions\CreationUtilisateurProcess;
     use \minipress\core\actions\ConnectUtilisateurProcess;
+    use \minipress\core\actions\DeconnectUtilisateurProcess;
+    use \minipress\core\actions\getUnpublishedArticlesAction;
+    use \minipress\core\actions\getUnpublishedArticlesProcessAction;
+    use \minipress\core\actions\GetJsHtml;
     use \minipress\core\services\UtilisateurService;
-    
+
 
     return function($app) {
 
         $app->get('[/]',function (Request $request, Response $response, $args) {
-                $user = json_decode($_SESSION['user']);
+            $user = json_decode($_SESSION['user']);
             $twig = Twig::fromRequest($request);
             if($user != null){
                 return $twig->render($response, 'home.twig', ['user' => $user]);
@@ -33,9 +36,15 @@ use Slim\Views\Twig;
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
+        $app->get('/article/{id:\d+}[/]', GetArticlesByIdAction::class)->setName('articleById');
 
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->get('/article/unpublished[/]', getUnpublishedArticlesAction::class)->setName('unpublished');
+
+        $app->get('/article/{id}/pusblish[/]', PublishArticleAction::class)->setName('publishArticle');
+        $app->post('/article/{id}/pusblish[/]', PublishArticleProcessAction::class)->setName('publishedArticle');
 
         $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
         $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
@@ -51,6 +60,8 @@ use Slim\Views\Twig;
 
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
+
+        $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
 
         $app->get('/js', GetJsHtml::class)->setName('js');
     };

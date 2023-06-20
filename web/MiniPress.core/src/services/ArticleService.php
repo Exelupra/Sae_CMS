@@ -19,13 +19,13 @@ class ArticleService {
         $filterResume = filter_var($article['resume'], FILTER_SANITIZE_SPECIAL_CHARS);
         $filterContenu = filter_var($article['contenu'], FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if($article['titre'] != $filterTitre){
+        if($article['titre'] !== $filterTitre){
             throw new \Exception("Erreur de saisie");
         }
-        if($article['resume'] != $filterResume){
+        if($article['resume'] !== $filterResume){
             throw new \Exception("Erreur de saisie");
         }
-        if($article['contenu'] != $filterContenu){
+        if($article['contenu'] !== $filterContenu){
             throw new \Exception("Erreur de saisie");
         }
 

@@ -11,7 +11,7 @@ class GetArticleByCategorie extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $article = \minipress\core\models\Categorie::find($args['id'])->articles;
+        $article = \minipress\core\models\Categorie::find($args['id_categ'])->articles;
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
