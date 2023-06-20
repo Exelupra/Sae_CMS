@@ -10,14 +10,13 @@ class GetJsHtml extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $filePath = __DIR__ . '/../../../web/' . $args['file'];
-
+        $filePath = __DIR__ . '/../../../web/ListeArticle.html';
         if (file_exists($filePath)) {
             $content = file_get_contents($filePath);
             $response->getBody()->write($content);
             return $response;
         } else {
-            $response->getBody()->write('Fichier introuvable');
+            $response->getBody()->write('Fichier HTML introuvable');
             return $response->withStatus(404);
         }
     }
