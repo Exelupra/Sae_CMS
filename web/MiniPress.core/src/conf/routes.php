@@ -24,8 +24,8 @@ use Slim\Views\Twig;
     return function($app) {
 
         $app->get('[/]',function (Request $request, Response $response, $args) {
-            var_dump(isset($_SESSION['user']));
-                $user = json_decode($_SESSION['user']);
+            
+            $user = json_decode($_SESSION['user']);
             $twig = Twig::fromRequest($request);
             if($user != null){
                 return $twig->render($response, 'home.twig', ['user' => $user]);
@@ -34,9 +34,15 @@ use Slim\Views\Twig;
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
+        $app->get('/article/{id:\d+}[/]', GetArticlesByIdAction::class)->setName('articleById');
 
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->get('/article/unpublished[/]', getUnpublishedArticlesAction::class)->setName('unpublished');
+
+        $app->get('/article/{id}/pusblish[/]', PublishArticleAction::class)->setName('publishArticle');
+        $app->post('/article/{id}/pusblish[/]', PublishArticleProcessAction::class)->setName('publishedArticle');
 
         $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
         $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
