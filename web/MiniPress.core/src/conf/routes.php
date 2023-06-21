@@ -30,6 +30,8 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getAllUsers;
     use \minipress\core\actions\ToggleAdmin;
     use \minipress\core\actions\getAllCategories;
+    use \minipress\core\actions\GetJsHtml;
+    use \minipress\core\actions\GetJs;
 
     
 
