@@ -6,18 +6,32 @@ use minipress\core\models\Article;
 
 class ArticleService {
 
-    public static function getAllArticle() {
-        return \minipress\core\models\Article::all()->toArray();
+    public static function getPublished() {
+        return \minipress\core\models\Article::whereNotNull('date_de_publication')->get()->toArray();
+    }
+
+    public static function getUnpublished() {
+        return \minipress\core\models\Article::whereNull('date_de_publication')->get()->toArray();
+    }
+
+    public static function getPublishedByUser($user) {
+        return \minipress\core\models\Article::whereNotNull('date_de_publication')
+        ->where('auteur','=',$user->id)->get()->toArray();
+    }
+
+    public static function getUnpublishedByUser($user) {
+        return \minipress\core\models\Article::whereNull('date_de_publication')
+        ->where('auteur','=',$user->id)->get()->toArray();
     }
 
     public static function getArticleById($id) {
         return \minipress\core\models\Article::find($id);
     }
 
-    public static function makeArticle($article){
-        $filterTitre = filter_var($article['titre'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $filterResume = filter_var($article['resume'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $filterContenu = filter_var($article['contenu'], FILTER_SANITIZE_SPECIAL_CHARS);
+    public static function makeArticle($article,$publish){
+        $filterTitre = filter_var($article['titre']);
+        $filterResume = filter_var($article['resume']);
+        $filterContenu = filter_var($article['contenu']);
 
         if($article['titre'] !== $filterTitre){
             throw new \Exception("Erreur de saisie");
@@ -31,6 +45,29 @@ class ArticleService {
 
         $article = new \minipress\core\models\Article($article);
         $article->id = Article::all()->max('id')+1;
+
+        $article->date_de_creation = date('Y-m-d H:i:s');
+        if($publish){
+            $article->date_de_publication = date('Y-m-d H:i:s');
+        }
+
         $article->save();
+    }
+
+    public static function publish($id){
+        $article = Article::find($id);
+        $article->date_de_publication = date('Y-m-d H:i:s');
+        $article->save();
+    }
+
+    public static function depublish($id){
+        $article = Article::find($id);
+        $article->date_de_publication = null;
+        $article->save();
+    }
+
+    public static function delete($id){
+        $article = Article::find($id);
+        $article->delete();
     }
 }

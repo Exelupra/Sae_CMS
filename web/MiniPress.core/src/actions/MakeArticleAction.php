@@ -17,14 +17,12 @@ class MakeArticleAction extends AbstractAction {
         ];
 
         $categories = CategorieService::getAllCategories();
-        $users = UtilisateurService::getUtilisateur();
 
         $view = Twig::fromRequest($request);
         array_merge($data, $this->getGlobalTemplateVar($request));
         return $view->render($response, 'makeArticle.twig', [
             'data' => $data,
-            'categories' => $categories,
-            'users' => $users
+            'categories' => $categories
         ]);
 
     }

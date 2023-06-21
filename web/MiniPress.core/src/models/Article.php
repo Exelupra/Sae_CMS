@@ -17,6 +17,8 @@ class Article extends \Illuminate\Database\Eloquent\Model {
         'auteur'
     ];
 
+    protected $dateformat = 'Y-m-d H:i:s';
+
     public function categorie(){
         return $this->belongsTo(Categorie::class, 'cat_id');
     }

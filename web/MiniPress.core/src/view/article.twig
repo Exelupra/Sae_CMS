@@ -1,0 +1,19 @@
+{% extends 'header.twig' %}
+
+{% block title %}{{ article.titre }}{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>{{ article.titre }}</h2>
+        {% if article.date_de_publication %}
+            <p>Publié par {{ auteur.mail }} le {{ article.date_de_publication }}</p>
+        {% endif %}
+        <br><br>
+        <p>{{ article.contenu }}</p>
+
+        {% if article.image %}
+            <img src="{{ article.image }}" alt="image de l'article">
+        {% endif %}
+
+{% endblock %}
+

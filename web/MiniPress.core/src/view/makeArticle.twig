@@ -15,12 +15,6 @@
         <label for="contenu">Contenu</label>
         <textarea name="contenu" id="contenu" required></textarea><br>
         
-        <label for="datecreation">Date de création</label>
-        <input type="date" name="datecreation" id="datecreation" required/><br>
-        
-        <label for="datepub">Date de publication</label>
-        <input type="date" name="datepub" id="datepub" required/><br>
-        
         <label for="image">Lien vers l'image (si il y en a une)</label>
         <input type="text" name="image" id="image"/><br>
         
@@ -30,13 +24,8 @@
                 <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
             {% endfor %}
         </select>
-        <input type="button" value="Ajouter une catégorie" onclick="window.location.href='{{ url_for('makeCategorie') }}'"><br>
-        <label for="auteur">Auteur</label>
-        <select name="auteur" id="auteur">
-            {% for user in users %}
-                <option value="{{ user.id }}">{{ user.mail }}</option>
-            {% endfor %}
-        </select><br>
-        <input type="submit" value="Ajouter">
+
+        <input type="submit" name="action" value="Créer l'article">
+        <input type="submit" name="action" value="Créer et publier l'article">
     </form>
 {% endblock %}
