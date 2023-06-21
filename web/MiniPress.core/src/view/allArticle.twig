@@ -3,7 +3,11 @@
 {% block title %}Article{% endblock %}
 
 {% block content %}
-    <h3><a href="{{ url_for('makeArticle') }}">Créer un articles</a></h3>
+    {% if isset == false %}
+        <h2>Veuillez vous connecter pour créer un article</h2>
+    {% else %}
+        <h3><a href="{{ url_for('makeArticle') }}">Créer un articles</a></h3>
+    {% endif %}
     {% for article in articles %}
         <div class="article">
             <h2>{{ article.titre }}</h2>
