@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'CategoriesPage.dart';
 import 'article.dart';
 import 'ArticlePage.dart';
 import 'categorie.dart';
-import 'CategoriesPage.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchArticles() async {
     final response = await http.get(Uri.parse(
-        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles/'));
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles?sort=date-asc'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
