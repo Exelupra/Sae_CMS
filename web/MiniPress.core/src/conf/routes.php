@@ -27,10 +27,7 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getMyArticlesAction;
     use \minipress\core\actions\TogglePublish;
     use \minipress\core\actions\DeleteArticle;
-
-    
     use \minipress\core\actions\DeconnectUtilisateurProcess;
-    use \minipress\core\actions\getUnpublishedArticlesAction;
     use \minipress\core\actions\getUnpublishedArticlesProcessAction;
     use \minipress\core\actions\GetJsHtml;
     use \minipress\core\actions\GetJs;
@@ -92,9 +89,8 @@ use Slim\Views\Twig;
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
 
         $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
+        $app->post('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
 
         $app->get('/js/{path:.+}', GetJs::class)->setName('js');
         $app->get('/jsHtml', GetJsHtml::class)->setName('js');
-
-        $app->post('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
     };
