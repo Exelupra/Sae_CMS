@@ -30,6 +30,8 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getAllUsers;
     use \minipress\core\actions\ToggleAdmin;
     use \minipress\core\actions\getAllCategories;
+    use \minipress\core\actions\UpdateCategorieAction;
+    use \minipress\core\actions\DeleteCategorieAction;
 
     
 
@@ -86,9 +88,13 @@ use Slim\Views\Twig;
         $app->get('/users', getAllUsers::class)->setName('allUsers');
         $app->post('/users', ToggleAdmin::class)->setName('toggleAdmin');
 
+        $app->post('/users/create[/]', CreationUtilisateurProcess::class)->setName('madeUser');
+
         $app->get('/categories', getAllCategories::class)->setName('allCategorie');
 
-        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
         $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
+
+        $app->post('/categorie/{id:\d+}/delete', DeleteCategorieAction::class)->setName('deleteCategorie');
+        $app->post('/categorie/{id:\d+}/update',UpdateCategorieAction::class)->setName('updateCategorie');
 
     };

@@ -4,7 +4,8 @@
 
 {% block content %}
 
-    <div class="add">
+    <div class="add" id="addUser">
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
         <h1>Ajouter un utilisateur</h1>
     </div>
 
@@ -31,4 +32,51 @@
 
     {% endfor %}
 
+    <script>
+        var add = document.getElementById('addUser');
+
+        add.addEventListener('click', function() {
+            add.removeEventListener('click', arguments.callee, false);
+            //affiche les champs horizontalement
+            var csrf = document.getElementById('csrf');
+            add.innerHTML = "";
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/users/create');
+            form.style = "color: white;"+
+                    "background: #0c5460;"+
+                    "padding: 10px;"+
+                    "border-radius: 10px;"+
+                    "box-shadow: 0 0 10px #0c5460;"+
+                    "display: flex;";
+            form.appendChild(csrf);
+            form.innerHTML += 
+            '<div class="addUtil">'+
+            '<label for="nom">Nom</label>'+
+            '<input type="text" name="nom" id="nom">'+
+            '</div><div class="addUtil">'+
+            '<label for="prenom">Prenom</label>'+
+            '<input type="text" name="prenom" id="prenom">'+
+            '</div><div class="addUtil">'+
+            '<label for="pseudo">Pseudo</label>'+
+            '<input type="text" name="pseudo" id="pseudo">'+
+            '</div><div class="addUtil">'+
+            '<label for="mail">Mail</label>'+
+            '<input type="text" name="mail" id="mail">'+
+            '</div><div class="addUtil">'+
+            '<label for="password">Password</label>'+
+            '<input type="password" name="password" id="password">'+
+            '</div>'+
+            '<input type="submit" value="Ajouter">';
+            add.appendChild(form);
+
+            let addUtil = form.getElementsByClassName('addUtil');
+            Array.from(addUtil).forEach(function(element) {
+                element.style.display = "flex";
+                element.style.flexDirection = "column";
+                element.style.margin = "0 10px";
+            });
+
+        });
+    </script>
 {% endblock %}

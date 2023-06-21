@@ -14,7 +14,6 @@ class getMyArticlesAction extends AbstractAction {
                 $published = ArticleService::getPublishedByUser(json_decode($_SESSION['user']));
                 $unpublished = ArticleService::getUnpublishedByUser(json_decode($_SESSION['user']));
                 
-
                 $twig = Twig::fromRequest($request);
                 return $twig->render($response, 'articleByUser.twig', 
                 ['published' => $published, 'unpublished' => $unpublished] );
