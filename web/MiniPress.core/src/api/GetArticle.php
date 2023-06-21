@@ -24,11 +24,11 @@ class GetArticle extends AbstractAction
                     $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('auteur', 'asc')->get();
                     break;
                 default:
-                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->all();
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->get();
                     break;
             }
         } catch (\Exception $e) {
-            $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->all();
+            $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->get();
         }
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
