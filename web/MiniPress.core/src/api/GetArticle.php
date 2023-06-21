@@ -15,20 +15,20 @@ class GetArticle extends AbstractAction
             $sort = $request->getQueryParams()['sort'] ?? null;
             switch ($sort) {
                 case 'date-asc':
-                    $article = \minipress\core\models\Article::orderBy('date', 'asc')->get();
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('date_de_publication', 'asc')->get();
                     break;
                 case 'date-desc':
-                    $article = \minipress\core\models\Article::orderBy('date', 'desc')->get();
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('date_de_publication', 'desc')->get();
                     break;
                 case 'auteur':
-                    $article = \minipress\core\models\Article::orderBy('auteur', 'asc')->get();
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('auteur', 'asc')->get();
                     break;
                 default:
-                    $article = \minipress\core\models\Article::all();
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->all();
                     break;
             }
         } catch (\Exception $e) {
-            $article = \minipress\core\models\Article::all();
+            $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->all();
         }
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
