@@ -11,7 +11,7 @@ class GetCategorieById extends AbstractAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $categorie = \minipress\core\models\Categorie::find($args['id']);
+        $categorie = \minipress\core\models\Categorie::where('id', '=', $args['id'])->first();
         $response->getBody()->write(json_encode($categorie));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
