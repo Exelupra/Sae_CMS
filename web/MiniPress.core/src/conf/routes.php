@@ -23,18 +23,23 @@ use Slim\Views\Twig;
     use \minipress\core\actions\PublishArticleAction;
     use \minipress\core\actions\PublishArticleProcessAction;
     use \minipress\core\actions\GetArticleByIdAction;
-    use \minipress\core\actions\GetArticleByUserIdAction;
+    use \minipress\core\actions\UpdateArticleAction;
     use \minipress\core\actions\getMyArticlesAction;
     use \minipress\core\actions\TogglePublish;
     use \minipress\core\actions\DeleteArticle;
+    use \minipress\core\actions\getAllUsers;
+    use \minipress\core\actions\ToggleAdmin;
+    use \minipress\core\actions\getAllCategories;
 
     
 
     return function($app) {
 
         $app->get('[/]',function (Request $request, Response $response, $args) {
-            
-            $user = json_decode($_SESSION['user']);
+            $user = null;
+            if(isset($_SESSION['user'])){
+                $user = json_decode($_SESSION['user']);
+            }
             $twig = Twig::fromRequest($request);
             if($user != null){
                 return $twig->render($response, 'home.twig', ['user' => $user]);
@@ -44,15 +49,15 @@ use Slim\Views\Twig;
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
         $app->get('/article/{id:\d+}[/]', GetArticleByIdAction::class)->setName('articleById');
+        $app->post('/article/{id:\d+}[/]', TogglePublish::class)->setName('togglePublishId');
 
         $app->get('/myarticles[/]', getMyArticlesAction::class)->setName('articleByUser');
         $app->post('/myarticles[/]', TogglePublish::class)->setName('togglePublish');
 
-        $app->get('/myarticles/{id:[a-zA-Z0-9]+}[/]', GetArticleByUserIdAction::class)->setName('myArticleById');
-        $app->post('/myarticles/{id:[a-zA-Z0-9]+}[/]', TogglePublish::class)->setName('togglePublishFromId');
-
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
+
+        $app->post('/article/{id}/update',UpdateArticleAction::class)->setName('updateArticle');
 
         $app->post('/article/{id:[a-zA-Z0-9]+}/delete', DeleteArticle::class)->setName('deleteArticle');
 
@@ -60,9 +65,6 @@ use Slim\Views\Twig;
 
         $app->get('/article/{id}/pusblish[/]', PublishArticleAction::class)->setName('publishArticle');
         $app->post('/article/{id}/pusblish[/]', PublishArticleProcessAction::class)->setName('publishedArticle');
-
-        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
-        $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
 
         $app->get('/api/categories[/]', GetCategorie::class)->setName('categorie');
         $app->get('/api/articles[/]', GetArticle::class)->setName('article');
@@ -77,5 +79,16 @@ use Slim\Views\Twig;
         $app->get('/connexion', ConnectUtilisateur::class)->setName('connexion');
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
 
-        $app->post('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
+        $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
+
+        //Admin
+
+        $app->get('/users', getAllUsers::class)->setName('allUsers');
+        $app->post('/users', ToggleAdmin::class)->setName('toggleAdmin');
+
+        $app->get('/categories', getAllCategories::class)->setName('allCategorie');
+
+        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
+        $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
+
     };

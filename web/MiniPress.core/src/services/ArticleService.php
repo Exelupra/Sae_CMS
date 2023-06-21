@@ -54,15 +54,38 @@ class ArticleService {
         $article->save();
     }
 
-    public static function publish($id){
+    public static function togglePublish($id){
         $article = Article::find($id);
-        $article->date_de_publication = date('Y-m-d H:i:s');
+        if($article->date_de_publication == null){
+            $article->date_de_publication = date('Y-m-d H:i:s');
+        } else {
+            $article->date_de_publication = null;
+        }
         $article->save();
     }
 
-    public static function depublish($id){
-        $article = Article::find($id);
-        $article->date_de_publication = null;
+
+    public static function updateArticle($data){
+        $filterTitre = filter_var($data['titre']);
+        $filterResume = filter_var($data['resume']);
+        $filterContenu = filter_var($data['contenu']);
+
+        if($data['titre'] != $filterTitre){
+            throw new \Exception("Erreur de saisie");
+        }
+        if($data['resume'] != $filterResume){
+            throw new \Exception("Erreur de saisie");
+        }
+        if($data['contenu'] != $filterContenu){
+            throw new \Exception("Erreur de saisie");
+        }
+
+        $article = Article::find($data['id']);
+        $article->titre = $data['titre'];
+        $article->resume = $data['resume'];
+        $article->contenu = $data['contenu'];
+        $article->image = $data['image'];
+        $article->cat_id = $data['cat_id'];
         $article->save();
     }
 

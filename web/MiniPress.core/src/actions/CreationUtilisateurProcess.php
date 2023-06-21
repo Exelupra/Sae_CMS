@@ -28,10 +28,16 @@ class CreationUtilisateurProcess extends AbstractAction
                 throw new HttpBadRequestException($request, "mail manquant"),
             'mdp' => $post_data['mdp'] ??
                 throw new HttpBadRequestException($request, "mdp manquant"),
+            'nom' => $post_data['nom'] ??
+                throw new HttpBadRequestException($request, "nom manquant"),
+            'prenom' => $post_data['prenom'] ??
+                throw new HttpBadRequestException($request, "prenom manquant"),
+            'pseudo' => $post_data['pseudo'] ??
+                throw new HttpBadRequestException($request, "pseudo manquant"),
         ];
 
 
-        UtilisateurService::createUtilisateur($data['id'], $data['mail'], $data['mdp']);
+        UtilisateurService::createUtilisateur($data);
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
         $url = $routeParser->urlFor('home');
         return $response->withHeader('Location', $url)->withStatus(302);

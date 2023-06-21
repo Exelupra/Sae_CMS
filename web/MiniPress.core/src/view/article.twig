@@ -7,13 +7,52 @@
         <h2>{{ article.titre }}</h2>
         {% if article.date_de_publication %}
             <p>Publié par {{ auteur.mail }} le {{ article.date_de_publication }}</p>
+        {% else %}
+            <p>Non publié, créé par {{ auteur.mail }} le {{ article.date_de_creation }}</p>
         {% endif %}
         <br><br>
-        <p>{{ article.contenu }}</p>
 
-        {% if article.image %}
-            <img src="{{ article.image }}" alt="image de l'article">
+        {%if user.id == auteur.id or user.admin == 1%}
+            <form action="{{ url_for('updateArticle', {'id':article.id}) }}" method="post">
+                <input type="text" name="titre" value="{{ article.titre }}"><br>
+                <input type="text" name="resume" value="{{ article.resume }}"><br>
+                <textarea name="contenu" id="" cols="30" rows="10">{{ article.contenu }}</textarea><br>
+                <input type="text" name="image" value="{{ article.image }}"><br>
+                <select name="cat_id" id="cat_id">
+                    {% for categorie in categories %}
+                        {% if categorie.id == article.categorie_id %}
+                            <option value="{{ categorie.id }}" selected>{{ categorie.libelle }}</option>
+                        {% else %}
+                            <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select><br>
+                <input type="submit" value="Modifier">
+            </form>
+
+            <form action="{{ url_for('deleteArticle', {'id':article.id}) }}" method="post">
+                {% if user.admin == 1 %}
+                    <input type="hidden" name="page" value="allArticle">
+                {% else %}
+                    <input type="hidden" name="page" value="articleByUser">
+                {% endif %}
+                <input type="submit" value="Supprimer">
+            </form>
+
+                <form action="{{ url_for('togglePublishId', {'id':article.id}) }}" method="post">
+                    <input type="hidden" name="page" value="articleById">
+                    <input type="submit" value="{% if article.date_de_publication %}Publier{% else %}Dépublier{% endif %}">
+                </form>
+        
+        {% else %}
+            <h2>{{ article.titre }}</h2>
+            <p>{{ article.contenu }}</p>
+
+            {% if article.image %}
+                <img src="{{ article.image }}" alt="image de l'article">
+            {% endif %}
         {% endif %}
-
+        
+    <div>
 {% endblock %}
 

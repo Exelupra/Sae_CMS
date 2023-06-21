@@ -18,6 +18,18 @@
             <h2>{{ article.titre }}</h2>
             <p>{{ article.resume }}</p>
             <p><a href="{{ url_for('articleById',{'id': article.id}) }}">Read more</a></p>
+            
+            {% if user.admin == 1 %}
+                <form action="{{ url_for('deleteArticle',{'id':article.id}) }}" method="post">
+                    <input type="hidden" name="id" value="article">
+                    <input type="submit" value="Supprimer">
+                </form>
+                <form action="{{ url_for('togglePublish') }}" method="post">
+                    <input type="hidden" name="id" value="{{ article.id }}">
+                    <input type="hidden" name="page" value="article">
+                    <input type="submit" value="Dépublier">
+                </form>
+            {% endif %}
         </div>
     {% endfor %}
     <script type="module" src="/../module/categoriesSelect.js"></script>
