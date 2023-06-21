@@ -5,7 +5,12 @@ import 'CategoriesPage.dart';
 import 'article.dart';
 import 'ArticlePage.dart';
 import 'categorie.dart';
+import 'FilterDialog.dart';
 
+enum SortOrder {
+  ascending,
+  descending,
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,17 +20,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Article> articles = []; // Liste des articles
   List<Category> categories = []; // Liste des catégories
+  SortOrder currentSortOrder = SortOrder.ascending; // Tri par défaut en ordre ascendant
+  String keyword = ''; // Mot-clé de filtrage des articles
 
   @override
   void initState() {
     super.initState();
-    fetchArticles(); // Appel à la fonction pour récupérer les articles depuis l'API
+    fetchArticles(currentSortOrder); // Appel à la fonction pour récupérer les articles depuis l'API avec le tri initial
     fetchCategories(); // Appel à la fonction pour récupérer les catégories depuis l'API
   }
 
-  Future<void> fetchArticles() async {
+  Future<void> fetchArticles(SortOrder sortOrder) async {
+    final sortParam = (sortOrder == SortOrder.ascending) ? 'date-asc' : 'date-desc';
     final response = await http.get(Uri.parse(
-        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles?sort=date-asc'));
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles?sort=$sortParam'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
@@ -48,6 +56,21 @@ class _HomePageState extends State<HomePage> {
       });
     } else {
       // Gestion des erreurs
+    }
+  }
+
+  void filterArticles() {
+    if (keyword.isEmpty) {
+      // Si le mot-clé est vide, afficher tous les articles
+      fetchArticles(currentSortOrder);
+    } else {
+      // Filtrer les articles en fonction du mot-clé dans le titre
+      setState(() {
+        articles = articles
+            .where((article) =>
+            article.title.toLowerCase().contains(keyword.toLowerCase()))
+            .toList();
+      });
     }
   }
 
@@ -78,6 +101,34 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          IconButton(
+            icon: Icon(Icons.sort),
+            onPressed: () {
+              setState(() {
+                if (currentSortOrder == SortOrder.ascending) {
+                  currentSortOrder = SortOrder.descending;
+                } else {
+                  currentSortOrder = SortOrder.ascending;
+                }
+                fetchArticles(currentSortOrder); // Appel à la fonction pour récupérer les articles avec le nouveau tri
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () async {
+              final result = await showDialog<String>(
+                context: context,
+                builder: (context) => FilterDialog(),
+              );
+              if (result != null) {
+                setState(() {
+                  keyword = result;
+                  filterArticles(); // Appliquer le filtre aux articles
+                });
+              }
+            },
+          ),
         ],
       ),
       body: Column(
@@ -98,8 +149,7 @@ class _HomePageState extends State<HomePage> {
                 return ListTile(
                   title: Text(article.title),
                   subtitle: Text(
-                      'Auteur: ${article.author} - Date de création: ${article
-                          .creationDate}'),
+                      'Auteur: ${article.author} - Date de création: ${article.creationDate}'),
                   onTap: () {
                     // Naviguer vers la page d'affichage complet de l'article
                     Navigator.push(
@@ -119,4 +169,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

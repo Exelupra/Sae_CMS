@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'article.dart';
-import 'dart:convert';
 import 'AuthorArticlesPage.dart';
+import 'article.dart';
+
 class ArticlePage extends StatefulWidget {
   final Article article;
+
 
   ArticlePage({required this.article});
 
@@ -14,43 +16,54 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   String categoryLabel = '';
-  String authorId = '';
+  List<Article> authorArticles = [];
 
   @override
   void initState() {
     super.initState();
     fetchCategoryLabel();
-    extractAuthorId();
+    fetchAuthorArticles();
   }
 
   Future<void> fetchCategoryLabel() async {
-    final response = await http.get(Uri.parse('http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/categorie/${widget.article.categoryId}'));
+    final response = await http.get(Uri.parse(
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/categorie/${widget.article.categoryId}'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
         categoryLabel = jsonData['libelle'];
       });
     } else {
-      // Gestion des erreurs
+      // Handle errors
     }
   }
 
-  void extractAuthorId() {
-    final regex = RegExp(r'/auteurs/([^/]+)/');
-    final match = regex.firstMatch(widget.article.author);
-    if (match != null && match.groupCount >= 1) {
+  Future<void> fetchAuthorArticles() async {
+    final response = await http.get(Uri.parse(
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteurs/${widget.article.author}/articles'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      List<Map<String, dynamic>> articlesData =
+      List<Map<String, dynamic>>.from(jsonData['data']);
+      List<Article> articles =
+      articlesData.map((data) => Article.fromJson(data)).toList();
       setState(() {
-        authorId = match.group(1)!;
+        authorArticles = articles;
       });
+    } else {
+      // Handle errors
     }
   }
 
   void navigateToAuthorArticles() {
-    if (authorId.isNotEmpty) {
+    if (widget.article.author.isNotEmpty) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AuthorArticlesPage(authorId: authorId),
+          builder: (context) => AuthorArticlesPage(
+            articles: authorArticles,
+            authorId: widget.article.author,
+          ),
         ),
       );
     }
