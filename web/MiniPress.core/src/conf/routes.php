@@ -26,6 +26,9 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getMyArticlesAction;
     use \minipress\core\actions\TogglePublish;
     use \minipress\core\actions\DeleteArticle;
+    use \minipress\core\actions\getAllUsers;
+    use \minipress\core\actions\ToggleAdmin;
+    use \minipress\core\actions\getAllCategories;
 
     
 
@@ -62,9 +65,6 @@ use Slim\Views\Twig;
         $app->get('/article/{id}/pusblish[/]', PublishArticleAction::class)->setName('publishArticle');
         $app->post('/article/{id}/pusblish[/]', PublishArticleProcessAction::class)->setName('publishedArticle');
 
-        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
-        $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
-
         $app->get('/api/categories[/]', GetCategorie::class)->setName('categorie');
         $app->get('/api/articles[/]', GetArticle::class)->setName('article');
         $app->get('/api/categories/{id_categ}/articles', GetArticleByCategorie::class)->setName('articleByCategorie');
@@ -78,4 +78,15 @@ use Slim\Views\Twig;
         $app->post('/connexion', ConnectUtilisateurProcess::class)->setName('connexionProcess');
 
         $app->get('/deconnexion', DisconnectUtilisateurAction::class)->setName('deconnexion');
+
+        //Admin
+
+        $app->get('/users', getAllUsers::class)->setName('allUsers');
+        $app->post('/users', ToggleAdmin::class)->setName('toggleAdmin');
+
+        $app->get('/categories', getAllCategories::class)->setName('allCategorie');
+
+        $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
+        $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
+
     };

@@ -43,17 +43,20 @@ class UtilisateurService
         return Utilisateur::where('mail', $mail)->first();
     }
 
-    public static function createUtilisateur($id,$mail, $mdp)
+    public static function createUtilisateur($data)
     {
         $utilisateur = new Utilisateur();
-        $utilisateur->id = $id;
-        if (!filter_var($mail, FILTER_VALIDATE_EMAIL))
+        $utilisateur->id = $data['id'];
+        if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL))
             throw new AuthException(" error : invalid user email");
 
-        $utilisateur->mail = $mail;
-        $hash = password_hash($mdp, PASSWORD_DEFAULT, ['cost'=>12]);
+        $utilisateur->mail = $data['mail'];
+        $hash = password_hash($data['mdp'], PASSWORD_DEFAULT, ['cost'=>12]);
         $utilisateur->mdp = $hash;
         $utilisateur->admin = false;
+        $utilisateur->nom = $data['nom'];
+        $utilisateur->prenom = $data['prenom'];
+        $utilisateur->pseudo = $data['pseudo'];
         $utilisateur->save();
         return $utilisateur;
     }
@@ -73,5 +76,11 @@ class UtilisateurService
         $utilisateur->admin = $admin;
         $utilisateur->save();
         return $utilisateur;
+    }
+
+    public static function toggleAdmin($id){
+        $utilisateur = Utilisateur::find($id);
+        $utilisateur->admin = !$utilisateur->admin;
+        $utilisateur->save();
     }
 }

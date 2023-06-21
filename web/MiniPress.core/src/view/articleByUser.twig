@@ -11,10 +11,12 @@
             <p>{{ article.contenu }}</p>
             <a href="{{ url_for('articleById',{'id': article.id}) }}">Voir l'article</a>
             <form action="{{ url_for('togglePublish') }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="hidden" name="id" value="{{ article.id }}">
                 <input type="submit" value="Publier">
             </form>
             <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="hidden" name="id" value="{{ article.id }}">
                 <input type="submit" value="Supprimer">
             </form>
@@ -29,11 +31,13 @@
             <p>{{ article.contenu }}</p>
             <a href="{{ url_for('articleById',{'id': article.id}) }}">Voir l'article</a>
             <form action="{{ url_for('togglePublish') }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="hidden" name="id" value="{{ article.id }}">
                 <input type="submit" value="Dépublier">
             </form>
             <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
                 <input type="hidden" name="id" value="{{ article.id }}">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="submit" value="Supprimer">
             </form>
         </div>

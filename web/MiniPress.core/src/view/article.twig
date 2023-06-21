@@ -11,7 +11,8 @@
             <p>Non publié, créé par {{ auteur.mail }} le {{ article.date_de_creation }}</p>
         {% endif %}
         <br><br>
-        {%if user.id == auteur.id %}
+
+        {%if user.id == auteur.id or user.admin == 1%}
             <form action="{{ url_for('updateArticle', {'id':article.id}) }}" method="post">
                 <input type="text" name="titre" value="{{ article.titre }}"><br>
                 <input type="text" name="resume" value="{{ article.resume }}"><br>
@@ -28,18 +29,20 @@
                 </select><br>
                 <input type="submit" value="Modifier">
             </form>
+
             <form action="{{ url_for('deleteArticle', {'id':article.id}) }}" method="post">
+                {% if user.admin == 1 %}
+                    <input type="hidden" name="page" value="allArticle">
+                {% else %}
+                    <input type="hidden" name="page" value="articleByUser">
+                {% endif %}
                 <input type="submit" value="Supprimer">
             </form>
-            {% if article.date_de_publication %}
+
                 <form action="{{ url_for('togglePublishId', {'id':article.id}) }}" method="post">
-                    <input type="submit" value="Dépublier">
+                    <input type="hidden" name="page" value="articleById">
+                    <input type="submit" value="{% if article.date_de_publication %}Publier{% else %}Dépublier{% endif %}">
                 </form>
-            {% else %}
-                <form action="{{ url_for('togglePublishId', {'id':article.id}) }}" method="post">
-                    <input type="submit" value="Publier">
-                </form>
-            {% endif %}
         
         {% else %}
             <h2>{{ article.titre }}</h2>

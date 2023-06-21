@@ -1,0 +1,34 @@
+{% extends 'header.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block content %}
+
+    <div class="add">
+        <h1>Ajouter un utilisateur</h1>
+    </div>
+
+    {% for utilisateur in utilisateurs %}
+    
+        {% if utilisateur.id != user.id %}
+            <div>
+                <h3>{{ utilisateur.pseudo }}</h3>
+                <h4>{{ utilisateur.nom }} {{ utilisateur.prenom }}</h4>
+                <h4>{{ utilisateur.mail }}</h4>
+
+                {% if utilisateur.admin == 1 %}
+                    <h4>Admin</h4>
+                {% else %}
+                    <h4>Utilisateur</h4>
+                {% endif %}
+
+                <form action="{{ url_for('toggleAdmin', {'id': utilisateur.id}) }}" method="post">
+                    <input type="hidden" name="id" value="{{ utilisateur.id }}">
+                    <input type="submit" value="Toggle Admin">
+                </form>
+            </div>
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}
