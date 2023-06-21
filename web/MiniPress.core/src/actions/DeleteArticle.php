@@ -12,7 +12,7 @@ class DeleteArticle extends AbstractAction {
     public function __invoke(Request $request , Response $response , array $args): Response{
         ArticleService::delete($args['id']);
         $routerParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routerParser->urlFor('allArticles');
+        $url = $routerParser->urlFor('article');
         return $response->withHeader('Location', $url)->withStatus(302);
     }
 
