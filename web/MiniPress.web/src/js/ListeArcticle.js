@@ -2,6 +2,7 @@ import {afficherArticles, afficherCategories, afficherContennuArticle} from "./u
 import {load} from "./Fetcher.js";
 
 function listePlusRecent(){
+    document.getElementById("titre").innerText = "Article les plus recent";
     afficherArticles(load("/articles"));
 }
 
@@ -9,12 +10,14 @@ export function listeDeLaCategorie(id){
     afficherArticles(load("/categories/" + id + "/articles"));
 }
 
-export function contenuArticle(article){
-    afficherContennuArticle(load(article))
+export function contenuArticle(id){
+    document.getElementById("titre").innerText = " ";
+    afficherContennuArticle(load("/articles/" + id));
 }
 
-function listeArticleDeAuteur(id){
-    afficherArticles(load("/auteur/" + id + "/articles"));
+export function listeArticleDeAuteur(nom){
+    document.getElementById("titre").innerText = "Article d'un auteur"; // a retirée
+    afficherArticles(load("/auteur/" + nom + "/articles"));
 }
 
 function categories(){
