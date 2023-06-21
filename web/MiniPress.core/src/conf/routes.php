@@ -22,7 +22,7 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getUnpublishedArticlesAction;
     use \minipress\core\actions\PublishArticleAction;
     use \minipress\core\actions\PublishArticleProcessAction;
-    use \minipress\core\actions\GetArticleByIdAction;
+    use \minipress\core\actions\getArticleByIdAction;
     use \minipress\core\actions\UpdateArticleAction;
     use \minipress\core\actions\getMyArticlesAction;
     use \minipress\core\actions\TogglePublish;
@@ -50,7 +50,7 @@ use Slim\Views\Twig;
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
-        $app->get('/article/{id:\d+}[/]', GetArticleByIdAction::class)->setName('articleById');
+        $app->get('/article/{id:\d+}[/]', getArticleByIdAction::class)->setName('articleById');
         $app->post('/article/{id:\d+}[/]', TogglePublish::class)->setName('togglePublishId');
 
         $app->get('/myarticles[/]', getMyArticlesAction::class)->setName('articleByUser');

@@ -1,34 +1,35 @@
 {% extends 'header.twig' %}
 
-{% block title %}{{ article.titre }}{% endblock %}
-
 {% block content %}
     <div>
         <h2>{{ article.titre }}</h2>
         {% if article.date_de_publication %}
-            <p>Publié par {{ auteur.mail }} le {{ article.date_de_publication }}</p>
+            <p>Publié par {{ auteur.prenom }} {{ auteur.nom }} le {{ article.date_de_publication }}</p>
         {% else %}
             <p>Non publié, créé par {{ auteur.mail }} le {{ article.date_de_creation }}</p>
         {% endif %}
-        <br><br>
+        <br>
 
         {%if user.id == auteur.id or user.admin == 1%}
-            <form action="{{ url_for('updateArticle', {'id':article.id}) }}" method="post">
-                <input type="text" name="titre" value="{{ article.titre }}"><br>
-                <input type="text" name="resume" value="{{ article.resume }}"><br>
-                <textarea name="contenu" id="" cols="30" rows="10">{{ article.contenu }}</textarea><br>
-                <input type="text" name="image" value="{{ article.image }}"><br>
-                <select name="cat_id" id="cat_id">
-                    {% for categorie in categories %}
-                        {% if categorie.id == article.categorie_id %}
-                            <option value="{{ categorie.id }}" selected>{{ categorie.libelle }}</option>
-                        {% else %}
-                            <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select><br>
-                <input type="submit" value="Modifier">
-            </form>
+            <div class="article">
+                <div id="categorie" style="display:none;">
+                    <select name="cat_id" id="cat_id">
+                        {% for categorie in categories %}
+                            <option value="{{ categorie.id }}" {% if categorie.id == article.categorie_id %}selected{% endif %}>{{ categorie.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" id="page" name="page" value="{{ url_for('articleById',{ 'id':article.id }) }}">
+                <input type="hidden" id="urlUpdate" name="urlUpdate" value="{{ url_for('updateArticle',{ 'id':article.id }) }}">
+                <input type="hidden" id="resume" name="resume" value="{{ article.resume }}">
+                <input type="hidden" id="titre" name="titre" value="{{ article.titre }}">
+                <p>{{ article.contenu }}</p>
+                {% if article.image %}
+                    <img src="{{ article.image }}" alt="image de l'article">
+                {% endif %}
+            </div>
+
+            <button class="modifArticle">Modifier</button>
 
             <form action="{{ url_for('deleteArticle', {'id':article.id}) }}" method="post">
                 {% if user.admin == 1 %}
@@ -44,8 +45,42 @@
                     <input type="submit" value="{% if article.date_de_publication %}Publier{% else %}Dépublier{% endif %}">
                 </form>
         
+            <script>
+
+                let modifArticle = document.getElementsByClassName('modifArticle');
+                
+                Array.from(modifArticle).forEach( element => {
+                    element.addEventListener('click', () => {
+                        let article = element.parentElement.querySelector('.article');
+
+                        let urlUpdate = article.querySelector('input#urlUpdate').value;
+                        let page = article.querySelector('input#page').value;
+                        let resume = article.querySelector('input#resume').value;
+                        let img = article.querySelector('img') ? article.querySelector('img').src : '';
+                        let titre = article.querySelector('input#titre').value;
+
+                        let categorie = article.querySelector('div#categorie');
+
+                        let form = document.createElement('form');
+                        form.method = "post";
+                        form.action = urlUpdate;
+                        form.innerHTML = '<input type="hidden" name="page" value="'+page+'">'+
+                            '<input type="text" name="titre" value="'+titre+'">'+
+                            '<input type="text" name="resume" value="'+resume+'">'+
+                            '<textarea name="contenu">'+article.querySelector('p').innerHTML+'</textarea>'+
+                            '<input type="text" name="image" value="'+img+'">'+
+                            '<input type="submit" value="Valider la modification">'+categorie.innerHTML;
+
+                        article.innerHTML = '';
+                        article.appendChild(form);
+
+                        element.remove();
+                    });
+                });
+
+            </script>
+
         {% else %}
-            <h2>{{ article.titre }}</h2>
             <p>{{ article.contenu }}</p>
 
             {% if article.image %}
