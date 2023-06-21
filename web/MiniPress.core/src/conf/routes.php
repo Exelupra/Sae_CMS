@@ -7,6 +7,7 @@ use minipress\core\api\GetArticleByAuteur;
 use minipress\core\api\GetArticleByCategorie;
 use minipress\core\api\GetArticlesById;
 use minipress\core\api\GetCategorie;
+use minipress\core\api\GetCategorieById;
 use Slim\Views\Twig;
     use Psr\Http\Message\ResponseInterface as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
@@ -70,6 +71,7 @@ use Slim\Views\Twig;
         $app->get('/api/categories/{id_categ}/articles', GetArticleByCategorie::class)->setName('articleByCategorie');
         $app->get('/api/articles/{id}', GetArticlesById::class)->setName('articleById');
         $app->get('/api/auteurs/{id}/articles', GetArticleByAuteur::class)->setName('articleByAuteur');
+        $app->get('/api/categorie/{id}', GetCategorieById::class)->setName('categorieById');
 
         $app->get('/inscription',CreationUtilisateurAction::class)->setName('inscription');
         $app->post('/inscription',CreationUtilisateurProcess::class)->setName('inscriptionProcess');
