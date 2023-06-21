@@ -91,4 +91,6 @@ use Slim\Views\Twig;
         $app->get('/categorie/create[/]', MakeCategorieAction::class)->setName('makeCategorie');
         $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
 
+        $app->get('/js/{path:.+}', GetJs::class)->setName('js');
+        $app->get('/jsHtml', GetJsHtml::class)->setName('js');
     };
