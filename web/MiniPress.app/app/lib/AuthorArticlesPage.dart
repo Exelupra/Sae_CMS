@@ -19,11 +19,18 @@ class AuthorArticlesPage extends StatelessWidget {
         itemCount: articles.length,
         itemBuilder: (context, index) {
           Article article = articles[index];
+
           String formattedDate =
           DateFormat('yyyy-MM-dd').format(article.publicationDate);
           return ListTile(
             title: Text(article.title),
-            subtitle: Text(formattedDate),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(formattedDate),
+                Text(article.summary),
+              ],
+            ),
             onTap: () {
               Navigator.push(
                 context,

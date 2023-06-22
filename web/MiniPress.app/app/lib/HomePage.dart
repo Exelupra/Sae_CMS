@@ -38,8 +38,7 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
-        articles =
-        List<Article>.from(jsonData.map((data) => Article.fromJson(data)));
+        articles = List<Article>.from(jsonData.map((data) => Article.fromJson(data)));
       });
     } else {
       // Gestion des erreurs
@@ -52,8 +51,7 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
-        categories =
-        List<Category>.from(jsonData.map((data) => Category.fromJson(data)));
+        categories = List<Category>.from(jsonData.map((data) => Category.fromJson(data)));
       });
     } else {
       // Gestion des erreurs
@@ -76,6 +74,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<String> fetchPseudo(String authorId) async {
+    print(authorId);
+    print("wolrld");
+    final response = await http.get(Uri.parse(
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteur/$authorId'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final pseudo = jsonData[0]['pseudo'];
+      return pseudo;
+    } else {
+      // Gestion des erreurs
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +97,6 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Row(
             children: [
-              Text(
-                'Catégories',
-                style: TextStyle(fontSize: 16),
-              ),
               IconButton(
                 icon: Icon(Icons.category),
                 onPressed: () {
@@ -95,8 +104,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          CategoriesPage(categories: categories),
+                      builder: (context) => CategoriesPage(categories: categories),
                     ),
                   );
                 },
@@ -148,18 +156,53 @@ class _HomePageState extends State<HomePage> {
               itemCount: articles.length,
               itemBuilder: (context, index) {
                 final article = articles[index];
-                return ListTile(
-                  title: Text(article.title),
-                  subtitle: Text(
-                      'Auteur: ${article.author} - Date de création: ${article.creationDate}'),
-                  onTap: () {
-                    // Naviguer vers la page d'affichage complet de l'article
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ArticlePage(article: article),
-                      ),
-                    );
+                return FutureBuilder<String>(
+                  future: fetchPseudo(article.author),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return ListTile(
+                        title: Text(article.title),
+                        subtitle: Text('Chargement du pseudo...'),
+                        onTap: () {
+                          // Naviguer vers la page d'affichage complet de l'article
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ArticlePage(article: article),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return ListTile(
+                        title: Text(article.title),
+                        subtitle: Text('Erreur lors du chargement du pseudo.'),
+                        onTap: () {
+                          // Naviguer vers la page d'affichage complet de l'article
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ArticlePage(article: article),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      final pseudo = snapshot.data!;
+                      return ListTile(
+                        title: Text(article.title),
+                        subtitle: Text('Auteur: $pseudo - Date de création: ${article.creationDate}'),
+                        onTap: () {
+                          // Naviguer vers la page d'affichage complet de l'article
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ArticlePage(article: article),
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 );
               },
