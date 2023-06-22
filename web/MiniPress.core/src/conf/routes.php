@@ -50,11 +50,11 @@ use Slim\Views\Twig;
         })->setName('home');
 
         $app->get('/article', getAllArticlesAction::class)->setName('article');
-        $app->get('/article/{id:\d+}[/]', getArticleByIdAction::class)->setName('articleById');
-        $app->post('/article/{id:\d+}[/]', TogglePublish::class)->setName('togglePublishId');
+        $app->get('/article/{id:\d+}', getArticleByIdAction::class)->setName('articleById');
+        $app->post('/article/{id:\d+}', TogglePublish::class)->setName('togglePublishId');
 
-        $app->get('/myarticles[/]', getMyArticlesAction::class)->setName('articleByUser');
-        $app->post('/myarticles[/]', TogglePublish::class)->setName('togglePublish');
+        $app->get('/myarticles', getMyArticlesAction::class)->setName('articleByUser');
+        $app->post('/myarticles', TogglePublish::class)->setName('togglePublish');
 
         $app->get('/article/create[/]', MakeArticleAction::class)->setName('makeArticle');
         $app->post('/article/create[/]', MakeArticleProcessAction::class)->setName('madeArticle');
