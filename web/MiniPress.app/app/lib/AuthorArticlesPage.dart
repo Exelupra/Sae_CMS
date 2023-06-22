@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import the intl package for date formatting
+import 'package:intl/intl.dart';
 import 'article.dart';
+import 'ArticlePage.dart';
 
 class AuthorArticlesPage extends StatelessWidget {
   final List<Article> articles;
@@ -18,12 +19,18 @@ class AuthorArticlesPage extends StatelessWidget {
         itemCount: articles.length,
         itemBuilder: (context, index) {
           Article article = articles[index];
-          String formattedDate = DateFormat('yyyy-MM-dd').format(article.publicationDate); // Format the date
+          String formattedDate =
+          DateFormat('yyyy-MM-dd').format(article.publicationDate);
           return ListTile(
             title: Text(article.title),
-            subtitle: Text(formattedDate), // Use the formatted date
+            subtitle: Text(formattedDate),
             onTap: () {
-              // Handle article tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArticlePage(article: article),
+                ),
+              );
             },
           );
         },

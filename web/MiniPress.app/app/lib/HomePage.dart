@@ -5,7 +5,7 @@ import 'CategoriesPage.dart';
 import 'article.dart';
 import 'ArticlePage.dart';
 import 'categorie.dart';
-import 'AuthorArticlesPage.dart';
+
 import 'FilterDialog.dart';
 
 enum SortOrder {
