@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArticles(categorieId);
     });
 function updateArticles(categorieId) {
-    var url = 'api/categories/' + categorieId + '/articles';
+    var url = '';
+    if (categorieId == 0) {
+        url = 'api/articles';
+    } else {
+        url = 'api/categories/' + categorieId + '/articles';
+    }
     fetch(url)
         .then(function(response) {
             if (response.ok) {
