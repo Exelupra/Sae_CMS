@@ -13,10 +13,7 @@ class GetArticleByAuteur extends AbstractAction
     {
         $id = $args['id'];
         $articles = \minipress\core\models\Article::where('auteur', $id)->get();
-        $output = [
-            "data" => $articles
-        ];
-        $response->getBody()->write(json_encode($output));
+        $response->getBody()->write(json_encode($articles));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 }
