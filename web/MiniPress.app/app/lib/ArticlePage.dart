@@ -37,14 +37,13 @@ class _ArticlePageState extends State<ArticlePage> {
       // Handle errors
     }
   }
-
   Future<void> fetchAuthorArticles() async {
     final response = await http.get(Uri.parse(
         'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteurs/${widget.article.author}/articles'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       List<Map<String, dynamic>> articlesData =
-      List<Map<String, dynamic>>.from(jsonData['data']);
+      List<Map<String, dynamic>>.from(jsonData);
       List<Article> articles =
       articlesData.map((data) => Article.fromJson(data)).toList();
       setState(() {
@@ -54,6 +53,7 @@ class _ArticlePageState extends State<ArticlePage> {
       // Handle errors
     }
   }
+
 
   void navigateToAuthorArticles() {
     if (widget.article.author.isNotEmpty) {
