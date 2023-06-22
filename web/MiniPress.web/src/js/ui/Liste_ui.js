@@ -1,9 +1,12 @@
-import {contenuArticle, listeDeLaCategorie, listeArticleDeAuteur} from "../ListeArcticle.js";
+import {contenuArticle, listeDeLaCategorie,listePlusRecent, listePlusVieux, listeArticleDeAuteur} from "../ListeArcticle.js";
+import {load} from "../Fetcher.js";
 
 export function afficherArticles(promesse) {
     var html = "";
     promesse.then(articles => {
+        var auteur;
         articles.forEach(article => {
+            load("/auteur/" + article.auteur).then(auteurn => auteur = auteurn.pseudo);
             html += "<section class='article' value='" + article.id + "'>" +
                 "<img src='" +
                 article.image +
@@ -14,7 +17,7 @@ export function afficherArticles(promesse) {
                 "</h6> <h6 class='auteur' value='" +
                 article.auteur +
                 "'>" +
-                article.auteur +
+                auteur +
                 "</h6> </section>";
         })
         document.getElementById("articles").innerHTML = html;
@@ -37,7 +40,9 @@ export function afficherArticles(promesse) {
 }
 
 export function afficherCategories(promesse) {
-    var html = "";
+    var html = "<h6 id='recent'>Article les plus recent</h6>" +
+        "<h6 id='vieux'>Article les plus vieux</h6></br>" +
+        "<h4>Categorie:</h4>";
     promesse.then(categories => {
         categories.forEach(categorie => {
             html += "<h5 id='categorie' value='" +
@@ -56,24 +61,38 @@ export function afficherCategories(promesse) {
                 document.getElementById("titre").innerText = "Article de la categorie " + section.getAttribute("categ"));
             });
         })
+
+        document.getElementById("recent").addEventListener("click", function () {
+            listePlusRecent();
+        });
+
+        document.getElementById("vieux").addEventListener("click", function () {
+            listePlusVieux();
+        });
+
     })
 }
 
 export function afficherContennuArticle(promesse) {
     promesse.then(article => {
+        var auteur;
+        load("/auteur/" + article.auteur).then(auteurN => auteur = auteurN.pseudo);
         document.getElementById("articles").innerHTML = "<h5>" +
             article.date_de_publication +
             "</h5>"+
             "<h2>" +
             article.titre +
             "</h2>" +
+            "<img src='" +
+            article.image +
+            "'>" +
             "<p>" +
             article.contenu +
             "</p>" +
             "<h4 class='auteur' value='" +
             article.auteur +
             "'>" +
-            article.auteur +
+            auteur +
             "</h4>";
         document.querySelectorAll(".auteur").forEach(section => {
             section.addEventListener("click", function () {

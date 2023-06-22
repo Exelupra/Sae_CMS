@@ -1,9 +1,14 @@
 import {afficherArticles, afficherCategories, afficherContennuArticle} from "./ui/Liste_ui.js";
 import {load} from "./Fetcher.js";
 
-function listePlusRecent(){
+export function listePlusRecent(){
     document.getElementById("titre").innerText = "Article les plus recent";
-    afficherArticles(load("/articles"));
+    afficherArticles(load("/articles?sort=date-desc"));
+}
+
+export function listePlusVieux(){
+    document.getElementById("titre").innerText = "Article les plus vieux";
+    afficherArticles(load("/articles?sort=date-asc"));
 }
 
 export function listeDeLaCategorie(id){

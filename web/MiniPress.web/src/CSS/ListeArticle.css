@@ -31,7 +31,7 @@ main {
     background-color: white;
 }
 
-.article img {
+img {
     max-width: 95%;
     max-height: 70%;
 }
@@ -48,6 +48,20 @@ main {
     cursor: pointer;
     color: white;
 }
+
+#categories h6 {
+    margin: 0;
+    padding: 1%;
+    cursor: pointer;
+    color: white;
+}
+
+#categories h4 {
+    margin: 0;
+    padding: 1%;
+    color: white;
+}
+
 
 .auteur {
     cursor: pointer;
