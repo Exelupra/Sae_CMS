@@ -7,7 +7,7 @@ import 'ArticlePage.dart';
 class CategoryArticlesPage extends StatefulWidget {
   final int categoryId;
 
-  CategoryArticlesPage({required this.categoryId});
+  const CategoryArticlesPage({super.key, required this.categoryId});
 
   @override
   _CategoryArticlesPageState createState() => _CategoryArticlesPageState();
@@ -30,7 +30,24 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
         articles = List<Article>.from(jsonData.map((data) => Article.fromJson(data)));
       });
     } else {
-      // Gestion des erreurs
+      // Gérer l'erreur de récupération des articles par catégorie
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Erreur'),
+            content: const Text('Impossible de récupérer les articles de cette catégorie.'),
+            actions: [
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -38,7 +55,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Articles de la catégorie'),
+        title: const Text('Articles de la catégorie'),
       ),
       body: ListView.builder(
         itemCount: articles.length,

@@ -7,7 +7,7 @@ import '../Models/article.dart';
 class ArticlePage extends StatefulWidget {
   final Article article;
 
-  ArticlePage({required this.article});
+  const ArticlePage({super.key, required this.article});
 
   @override
   _ArticlePageState createState() => _ArticlePageState();
@@ -35,7 +35,10 @@ class _ArticlePageState extends State<ArticlePage> {
         categoryLabel = jsonData['libelle'];
       });
     } else {
-      // Handle errors
+      // Gérer l'erreur de récupération de la catégorie
+      setState(() {
+        categoryLabel = 'Catégorie non disponible';
+      });
     }
   }
 
@@ -52,7 +55,10 @@ class _ArticlePageState extends State<ArticlePage> {
         authorArticles = articles;
       });
     } else {
-      // Handle errors
+      // Gérer l'erreur de récupération des articles de l'auteur
+      setState(() {
+        authorArticles = [];
+      });
     }
   }
 
@@ -66,7 +72,10 @@ class _ArticlePageState extends State<ArticlePage> {
         authorPseudo = pseudo;
       });
     } else {
-      // Handle errors
+      // Gérer l'erreur de récupération du pseudo de l'auteur
+      setState(() {
+        authorPseudo = 'Auteur inconnu';
+      });
     }
   }
 
@@ -88,51 +97,51 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Article'),
+        title: const Text('Article'),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.article.title,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   GestureDetector(
                     onTap: navigateToAuthorArticles,
                     child: Text(
                       'Auteur: $authorPseudo',
-                      style: TextStyle(fontSize: 16, color: Colors.blue),
+                      style: const TextStyle(fontSize: 16, color: Colors.blue),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Date de création: ${widget.article.creationDate}',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Date de publication: ${widget.article.publicationDate}',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     widget.article.content,
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   if (categoryLabel.isNotEmpty)
                     Text(
                       'Catégorie: $categoryLabel',
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   if (widget.article.image.isNotEmpty)
                     Image.network(
                       widget.article.image,

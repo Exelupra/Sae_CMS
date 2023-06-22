@@ -7,13 +7,13 @@ class AuthorArticlesPage extends StatelessWidget {
   final List<Article> articles;
   final String authorId;
 
-  AuthorArticlesPage({required this.articles, required this.authorId});
+  const AuthorArticlesPage({super.key, required this.articles, required this.authorId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Articles by Author'),
+        title: const Text('Articles par Auteur'),
       ),
       body: ListView.builder(
         itemCount: articles.length,
