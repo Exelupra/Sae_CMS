@@ -50,57 +50,59 @@
             </div>
     {% endfor %}
     </div>
-    <script type="module" src="../src/module/categoriesSelect.js" defer></script>
+    <script type="module" src="/../src/module/categoriesSelect.js" defer></script>
     <script>
         var add = document.getElementById('addArticle');
 
-        add.addEventListener('click', function() {
-            var categ = document.getElementById('categ');
-            var url = document.getElementById('url').value;
-            add.removeEventListener('click', arguments.callee, false);
-            var user = document.getElementById('auteur');
-            var csrf = document.getElementById('csrf');
-            add.innerHTML = "";
-            var form = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', url);
-            form.style = "color: white;"+
-                    "background: #0c5460;"+
-                    "padding: 10px;"+
-                    "border-radius: 10px;"+
-                    "box-shadow: 0 0 10px #0c5460;"+
-                    "display: flex;";
-            form.appendChild(csrf);
-            form.appendChild(user);
-            form.innerHTML += 
-                '<div class="addArt">'+
-                    '<label for="titre">Titre</label>'+
-                    '<input type="text" name="titre">'+
-                '</div><div class="addArt">'+
-                    '<label for="resume">Résumé</label>'+
-                    '<input type="text" name="resume">'+
-                '</div><div class="addArt">'+
-                    '<label for="contenu">Contenu</label>'+
-                    '<textarea name="contenu"></textarea>'+
-                '</div><div class="addArt">'+
-                    '<label for="image">Image</label>'+
-                    '<input type="text" name="image">'+
-                '</div><div class="addArt">'+
-                    '<label for="categorie">Catégorie</label>'+
-                    categ.innerHTML+
-                '</div><div class="addArt">'+
-                    '<input type="submit" name="action" value="Créer l\'article">'+
-                    '<input type="submit" name="action" value="Créer et publier l\'article">'+
-                '</div>';
-            add.appendChild(form);
+        if(add != null){
+            add.addEventListener('click', function() {
+                var categ = document.getElementById('categ');
+                var url = document.getElementById('url').value;
+                add.removeEventListener('click', arguments.callee, false);
+                var user = document.getElementById('auteur');
+                var csrf = document.getElementById('csrf');
+                add.innerHTML = "";
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', url);
+                form.style = "color: white;"+
+                        "background: #0c5460;"+
+                        "padding: 10px;"+
+                        "border-radius: 10px;"+
+                        "box-shadow: 0 0 10px #0c5460;"+
+                        "display: flex;";
+                form.appendChild(csrf);
+                form.appendChild(user);
+                form.innerHTML += 
+                    '<div class="addArt">'+
+                        '<label for="titre">Titre</label>'+
+                        '<input type="text" name="titre">'+
+                    '</div><div class="addArt">'+
+                        '<label for="resume">Résumé</label>'+
+                        '<input type="text" name="resume">'+
+                    '</div><div class="addArt">'+
+                        '<label for="contenu">Contenu</label>'+
+                        '<textarea name="contenu"></textarea>'+
+                    '</div><div class="addArt">'+
+                        '<label for="image">Image</label>'+
+                        '<input type="text" name="image">'+
+                    '</div><div class="addArt">'+
+                        '<label for="categorie">Catégorie</label>'+
+                        categ.innerHTML+
+                    '</div><div class="addArt">'+
+                        '<input type="submit" name="action" value="Créer l\'article">'+
+                        '<input type="submit" name="action" value="Créer et publier l\'article">'+
+                    '</div>';
+                add.appendChild(form);
 
-            let addArt = form.getElementsByClassName('addArt');
-            Array.from(addArt).forEach(function(element) {
-                element.style.display = "flex";
-                element.style.flexDirection = "column";
-                element.style.margin = "0 10px";
+                let addArt = form.getElementsByClassName('addArt');
+                Array.from(addArt).forEach(function(element) {
+                    element.style.display = "flex";
+                    element.style.flexDirection = "column";
+                    element.style.margin = "0 10px";
+                });
+
             });
-
-        });
+        }
     </script>
 {% endblock %}
