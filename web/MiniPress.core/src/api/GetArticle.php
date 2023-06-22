@@ -20,6 +20,12 @@ class GetArticle extends AbstractAction
                 case 'date-desc':
                     $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('date_de_publication', 'desc')->get();
                     break;
+                case 'dateC-asc':
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_creation','date_de_publication')->orderBy('date_de_creation', 'asc')->get();
+                    break;
+                case 'dateC-desc':
+                    $article = \minipress\core\models\Article::whereNotNull('date_de_creation','date_de_publication')->orderBy('date_de_creation', 'desc')->get();
+                    break;
                 case 'auteur':
                     $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->orderBy('auteur', 'asc')->get();
                     break;
@@ -28,7 +34,7 @@ class GetArticle extends AbstractAction
                     break;
             }
         } catch (\Exception $e) {
-            $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->all();
+            $article = \minipress\core\models\Article::whereNotNull('date_de_publication')->get();
         }
         $response->getBody()->write(json_encode($article));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);

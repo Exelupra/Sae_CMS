@@ -30,8 +30,13 @@ use Slim\Views\Twig;
     use \minipress\core\actions\getAllUsers;
     use \minipress\core\actions\ToggleAdmin;
     use \minipress\core\actions\getAllCategories;
+
+    use \minipress\core\actions\GetJsHtml;
+    use \minipress\core\actions\GetJs;
+
     use \minipress\core\actions\UpdateCategorieAction;
     use \minipress\core\actions\DeleteCategorieAction;
+
 
     
 
@@ -94,6 +99,10 @@ use Slim\Views\Twig;
         $app->get('/categories', getAllCategories::class)->setName('allCategorie');
 
         $app->post('/categorie/create[/]', MakeCategorieProcessAction::class)->setName('madeCategorie');
+
+
+        $app->get('/js/{path:.+}', GetJs::class)->setName('js');
+        $app->get('/jsHtml', GetJsHtml::class)->setName('js');
 
         $app->post('/categorie/{id:\d+}/delete', DeleteCategorieAction::class)->setName('deleteCategorie');
         $app->post('/categorie/{id:\d+}/update',UpdateCategorieAction::class)->setName('updateCategorie');

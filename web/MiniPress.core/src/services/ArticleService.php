@@ -33,13 +33,13 @@ class ArticleService {
         $filterResume = filter_var($article['resume']);
         $filterContenu = filter_var($article['contenu']);
 
-        if($article['titre'] != $filterTitre){
+        if($article['titre'] !== $filterTitre){
             throw new \Exception("Erreur de saisie");
         }
-        if($article['resume'] != $filterResume){
+        if($article['resume'] !== $filterResume){
             throw new \Exception("Erreur de saisie");
         }
-        if($article['contenu'] != $filterContenu){
+        if($article['contenu'] !== $filterContenu){
             throw new \Exception("Erreur de saisie");
         }
 
