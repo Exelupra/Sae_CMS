@@ -1,0 +1,10 @@
+<div class="intro">
+<h1>Bienvenue sur MiniPress</h1>
+</div>
+<link rel="stylesheet" href="../src/css/style.css">
+{% include 'header.twig' %}
+
+{% if user %}
+    <h1>Utilisateur : {{ user.pseudo }}</h1>
+{% endif %}
+

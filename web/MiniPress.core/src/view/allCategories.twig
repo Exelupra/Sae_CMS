@@ -1,0 +1,115 @@
+{% set cssPath = '../src/css/style.css' %}
+
+{% extends 'header.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+
+    
+    <input type="hidden" id="url" name="url" value="{{ url_for('madeCategorie') }}">
+    <input type="hidden" id="csrf" name="csrf" value="{{ data.csrf }}">
+    <div id="addCategorie">
+        <h1>Ajouter une categorie</h1>
+    </div>
+
+{% for categorie in categories %}
+    <div style="display:flex; margin:15px">
+        <div class="categ" style="margin:0px 15px">
+            <input type="hidden" id="modif" value="{{ url_for('updateCategorie',{'id':categorie.id}) }}">
+            <h2>{{ categorie.libelle }}</h2>
+            <p><h3>{{ categorie.description }}</h3></p>
+        </div>
+        <div class="buttons" style="display:flex; flex-direction:column; justify-content: center; margin:0px 15px">
+            <button class="modif">Modifier</button>
+            <form action="{{ url_for('deleteCategorie', {'id': categorie.id}) }}" method="post">
+                <input type="hidden" name="csrf" value="{{ data.csrf }}">
+                <input type="submit" value="Supprimer">
+            </form>
+        </div>
+    </div>
+{% endfor %}
+
+    <script>
+        var add = document.getElementById('addCategorie');
+
+        add.addEventListener('click', function() {
+            var url = document.getElementById('url').value;
+            add.removeEventListener('click', arguments.callee, false);
+            var csrf = document.getElementById('csrf');
+            add.innerHTML = "";
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', url);
+            form.style = "color: white;"+
+                    "background: #0c5460;"+
+                    "padding: 10px;"+
+                    "border-radius: 10px;"+
+                    "box-shadow: 0 0 10px #0c5460;"+
+                    "display: flex;";
+            form.appendChild(csrf);
+            form.innerHTML += 
+                '<div class="addCateg">'+
+                    '<label for="libelle">libelle</label>'+
+                    '<input type="text" name="libelle">'+
+                '</div><div class="addCateg">'+
+                    '<label for="description">description</label>'+
+                    '<input type="text" name="description">'+
+                '</div><div class="addCateg">'+
+                    '<input type="submit" value="Ajouter">'+
+                '</div>';
+            add.appendChild(form);
+
+            let addCateg = form.getElementsByClassName('addCateg');
+            Array.from(addCateg).forEach(function(cat) {
+                element.style.display = "flex";
+                element.style.flexDirection = "column";
+                element.style.margin = "0 10px";
+            });});
+
+        var modif = document.getElementsByClassName('modif');
+
+        Array.from(modif).forEach(function(element) {
+
+            element.addEventListener('click', function() {
+
+                let categ = element.parentNode.parentNode.getElementsByClassName('categ')[0];
+
+                let url = categ.querySelector('input').value;
+
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', url);
+                form.style = "color: white;"+
+                        "background: #0c5460;"+
+                        "padding: 10px;"+
+                        "border-radius: 10px;"+
+                        "box-shadow: 0 0 10px #0c5460;"+
+                        "display: flex;";
+
+                let libelle = categ.getElementsByTagName('h2')[0].innerHTML;
+                let description = categ.getElementsByTagName('h3')[0].innerHTML;
+
+                form.innerHTML ='<div class="modifCateg">'+
+                        '<label for="libelle">libelle</label>'+
+                        '<input type="text" name="libelle" value="'+libelle+'">'+
+                    '</div><div class="modifCateg">'+
+                        '<label for="description">description</label>'+
+                        '<input type="text" name="description" value="'+description+'">'+
+                    '</div><div class="modifCateg">'+
+                        '<input type="submit" value="Valider">'+
+                    '</div>'+
+                '</form>';
+
+                categ.innerHTML = "";
+                categ.appendChild(form);
+
+                element.remove();
+
+            });
+            
+        });
+
+    </script>
+
+{% endblock %}

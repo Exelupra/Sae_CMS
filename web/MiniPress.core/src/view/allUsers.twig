@@ -1,0 +1,89 @@
+{% set cssPath = '../src/css/style.css' %}
+
+{% extends 'header.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block content %}
+
+    <div class="add" id="addUser">
+        <input type="hidden" name="csrf" id="csrf" value="{{ csrf }}">
+        <h1>Ajouter un utilisateur</h1>
+    </div>
+
+    {% for utilisateur in utilisateurs %}
+    
+        {% if utilisateur.id != user.id %}
+            <div style="display:flex; flexDirection: column">
+                <div style="display: flex;">
+                    <div style="margin: 0px 15px">
+                        <h3>{{ utilisateur.pseudo }}</h3>
+                        <h4>{{ utilisateur.nom }} {{ utilisateur.prenom }}</h4>
+                    </div><div>
+                        <h4>{{ utilisateur.mail }}</h4>
+                        {% if utilisateur.admin == 1 %}
+                            <h4>Admin</h4>
+                        {% else %}
+                            <h4>Utilisateur</h4>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="display:flex;align-items: center; margin: 0px 15px">
+                <form action="{{ url_for('toggleAdmin', {'id': utilisateur.id}) }}" method="post">
+                    <input type="hidden" name="id" value="{{ utilisateur.id }}">
+                    <input type="submit" value="{% if utilisateur.admin == 1 %}Retirer les droits d'administrateur{% else %}Donner les droits d'administrateur{% endif %}">
+                </form>
+                </div>
+            </div>
+        {% endif %}
+
+    {% endfor %}
+
+    <script>
+        var add = document.getElementById('addUser');
+
+        add.addEventListener('click', function() {
+            add.removeEventListener('click', arguments.callee, false);
+            //affiche les champs horizontalement
+            var csrf = document.getElementById('csrf');
+            add.innerHTML = "";
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/users/create');
+            form.style = "color: white;"+
+                    "background: #0c5460;"+
+                    "padding: 10px;"+
+                    "border-radius: 10px;"+
+                    "box-shadow: 0 0 10px #0c5460;"+
+                    "display: flex;";
+            form.appendChild(csrf);
+            form.innerHTML += 
+            '<div class="addUtil">'+
+            '<label for="nom">Nom</label>'+
+            '<input type="text" name="nom" id="nom">'+
+            '</div><div class="addUtil">'+
+            '<label for="prenom">Prenom</label>'+
+            '<input type="text" name="prenom" id="prenom">'+
+            '</div><div class="addUtil">'+
+            '<label for="pseudo">Pseudo</label>'+
+            '<input type="text" name="pseudo" id="pseudo">'+
+            '</div><div class="addUtil">'+
+            '<label for="mail">Mail</label>'+
+            '<input type="text" name="mail" id="mail">'+
+            '</div><div class="addUtil">'+
+            '<label for="password">Password</label>'+
+            '<input type="password" name="password" id="password">'+
+            '</div>'+
+            '<input type="submit" value="Ajouter">';
+            add.appendChild(form);
+
+            let addUtil = form.getElementsByClassName('addUtil');
+            Array.from(addUtil).forEach(function(element) {
+                element.style.display = "flex";
+                element.style.flexDirection = "column";
+                element.style.margin = "0 10px";
+            });
+
+        });
+    </script>
+{% endblock %}

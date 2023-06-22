@@ -1,0 +1,48 @@
+{% set cssPath = '../src/css/style.css' %}
+
+{% extends 'header.twig' %}
+
+{% block title %}Articles de {{ user.mail }} {% endblock %}
+
+{% block content %}
+
+    <h2>Articles non publiés</h2>
+    {% for article in unpublished %}
+        <div>
+            <h5>{{ article.titre }}</h5>
+            <p>{{ article.contenu }}</p>
+            <a href="{{ url_for('articleById',{'id': article.id}) }}">Voir l'article</a>
+            <form action="{{ url_for('togglePublish') }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
+                <input type="hidden" name="id" value="{{ article.id }}">
+                <input type="submit" value="Publier">
+            </form>
+            <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
+                <input type="hidden" name="id" value="{{ article.id }}">
+                <input type="submit" value="Supprimer">
+            </form>
+        </div>
+    {% endfor %}
+    <hr>
+
+    <h2>Articles publiés</h2>
+    {% for article in published %}
+        <div>
+            <h5>{{ article.titre }}</h5>
+            <p>{{ article.contenu }}</p>
+            <a href="{{ url_for('articleById',{'id': article.id}) }}">Voir l'article</a>
+            <form action="{{ url_for('togglePublish') }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
+                <input type="hidden" name="id" value="{{ article.id }}">
+                <input type="submit" value="Dépublier">
+            </form>
+            <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
+                <input type="hidden" name="id" value="{{ article.id }}">
+                <input type="hidden" name="page" value="articleByUser">
+                <input type="submit" value="Supprimer">
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}
