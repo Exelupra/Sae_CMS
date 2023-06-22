@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'categorie.dart';
+import '../Models/categorie.dart';
 import 'CategoryArticlesPage.dart';
 
 

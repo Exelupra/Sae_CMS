@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'AuthorArticlesPage.dart';
-import 'article.dart';
+import '../Models/article.dart';
 
 class ArticlePage extends StatefulWidget {
   final Article article;

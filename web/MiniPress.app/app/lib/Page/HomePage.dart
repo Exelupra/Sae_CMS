@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'CategoriesPage.dart';
-import 'article.dart';
+import '../Models/article.dart';
 import 'ArticlePage.dart';
-import 'categorie.dart';
+import '../Models/categorie.dart';
 
-import 'FilterDialog.dart';
+import '../Filtre/FilterDialog.dart';
 
 enum SortOrder {
   ascending,
@@ -32,9 +32,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchArticles(SortOrder sortOrder) async {
-    final sortParam = (sortOrder == SortOrder.ascending) ? 'date-asc' : 'date-desc';
-    final response = await http.get(Uri.parse(
-        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles?sort=$sortParam'));
+    String sortParam;
+    switch (sortOrder) {
+      case SortOrder.ascending:
+        sortParam = 'dateC-asc';
+        break;
+      case SortOrder.descending:
+        sortParam = 'dateC-desc';
+        break;
+    }
+
+    final response = await http.get(
+      Uri.parse('http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/articles?sort=$sortParam'),
+    );
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       setState(() {
