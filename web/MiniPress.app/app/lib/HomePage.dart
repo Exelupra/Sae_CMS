@@ -5,6 +5,7 @@ import 'CategoriesPage.dart';
 import 'article.dart';
 import 'ArticlePage.dart';
 import 'categorie.dart';
+import 'AuthorArticlesPage.dart';
 import 'FilterDialog.dart';
 
 enum SortOrder {
@@ -64,11 +65,12 @@ class _HomePageState extends State<HomePage> {
       // Si le mot-clé est vide, afficher tous les articles
       fetchArticles(currentSortOrder);
     } else {
-      // Filtrer les articles en fonction du mot-clé dans le titre
+      // Filtrer les articles en fonction du mot-clé dans le titre ou le résumé
       setState(() {
         articles = articles
             .where((article) =>
-            article.title.toLowerCase().contains(keyword.toLowerCase()))
+        article.title.toLowerCase().contains(keyword.toLowerCase()) ||
+            article.summary.toLowerCase().contains(keyword.toLowerCase()))
             .toList();
       });
     }
