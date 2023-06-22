@@ -30,11 +30,12 @@ export function afficherArticles(promesse) {
         document.querySelectorAll(".auteur").forEach(section => {
             section.addEventListener("click", function () {
                 listeArticleDeAuteur(section.getAttribute("value"),
-                document.getElementById("titre").innerText = "Article de " + section.getAttribute("value"));
+                    document.getElementById("titre").innerText = "Article de " + section.getAttribute("value"));
             });
         })
     })
 }
+
 
 export function afficherCategories(promesse) {
     var html = "<h6 id='recent'>Article les plus recent</h6>" +
@@ -72,28 +73,30 @@ export function afficherCategories(promesse) {
 
 export function afficherContennuArticle(promesse) {
     promesse.then(article => {
-        document.getElementById("articles").innerHTML = "<h5>" +
-            article.date_de_publication +
-            "</h5>"+
-            "<h2>" +
-            article.titre +
-            "</h2>" +
-            "<img src='" +
-            article.image +
-            "'>" +
-            "<p>" +
-            article.contenu +
-            "</p>" +
-            "<h4 class='auteur' value='" +
-            article.auteur +
-            "'>" +
-            nomAuteur(article.auteur) +
-            "</h4>";
-        document.querySelectorAll(".auteur").forEach(section => {
-            section.addEventListener("click", function () {
-                listeArticleDeAuteur(section.getAttribute("value"),
-                    document.getElementById("titre").innerText = "Article de " + section.getAttribute("value"));
+        nomAuteur(article.auteur).then(nom => {
+            document.getElementById("articles").innerHTML = "<h5>" +
+                article.date_de_publication +
+                "</h5>" +
+                "<h2>" +
+                article.titre +
+                "</h2>" +
+                "<img src='" +
+                article.image +
+                "'>" +
+                "<p>" +
+                article.contenu +
+                "</p>" +
+                "<h4 class='auteur' value='" +
+                article.auteur +
+                "'>" +
+                nom +
+                "</h4>";
+            document.querySelectorAll(".auteur").forEach(section => {
+                section.addEventListener("click", function () {
+                    listeArticleDeAuteur(section.getAttribute("value"),
+                        document.getElementById("titre").innerText = "Article de " + section.getAttribute("value"));
+                });
             });
-        })
-    })
+        });
+    });
 }

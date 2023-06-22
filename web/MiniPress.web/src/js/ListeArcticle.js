@@ -29,10 +29,13 @@ function categories(){
     afficherCategories(load("/categories"));
 }
 
-export function nomAuteur(id){
-    var aut;
-    load("/auteur/" + id).then(auteur => aut = auteur.pseudo)
-    return aut;
+export function nomAuteur(id) {
+    return load("/auteur/" + id)
+        .then(auteur => auteur.pseudo)
+        .catch(error => {
+            console.error("Error retrieving author:", error);
+            return "undefined";
+        });
 }
 
 listePlusRecent();
