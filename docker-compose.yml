@@ -5,11 +5,12 @@ networks:
     driver: bridge
 
 services:
+
   sql:
     image: mariadb:latest
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mysql
+      - MYSQL_DATABASE=minipress
       - MYSQL_USER=root
     ports:
       - "27000:3306"
@@ -39,3 +40,4 @@ services:
       - Minipress.net
     depends_on:
       - sql
+
