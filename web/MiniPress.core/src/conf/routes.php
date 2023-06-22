@@ -74,6 +74,7 @@ use Slim\Views\Twig;
         $app->get('/api/articles/{id}', GetArticlesById::class)->setName('articleById');
         $app->get('/api/auteurs/{id}/articles', GetArticleByAuteur::class)->setName('articleByAuteur');
         $app->get('/api/categorie/{id}', GetCategorieById::class)->setName('categorieById');
+        $app->get('/api/auteur/{id}', GetAuteurById::class)->setName('auteurById');
 
         $app->get('/inscription',CreationUtilisateurAction::class)->setName('inscription');
         $app->post('/inscription',CreationUtilisateurProcess::class)->setName('inscriptionProcess');
