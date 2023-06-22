@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArticles(categorieId);
     });
 function updateArticles(categorieId) {
-    var url = '../api/categorie/' + categorieId + '/articles';
+    var url = 'api/categories/' + categorieId + '/articles';
     fetch(url)
         .then(function(response) {
             if (response.ok) {
@@ -15,18 +15,22 @@ function updateArticles(categorieId) {
             }
         })
         .then(function(articles) {
+            var articlesContainer = document.createElement('div');
+            var allArticles = document.querySelector('#allArticles');
+            allArticles.innerHTML = '';
             if (articles.length > 0) {
                 articles.forEach(function(article) {
-                    var articlesContainer = document.createElement('div');
-                    var articleHtml = '<div class="article">' +
-                        '<h2>' + article.titre + '</h2>' +
-                        '<p>' + article.resume + '</p>' +
-                        '<p><a href="' + article.url + '">Read more</a></p>' +
-                        '</div>';
+                    if(article.date_de_publication != null){
+                        var articleHtml = '<div class="article">' +
+                            '<h2>' + article.titre + '</h2>' +
+                            '<p>' + article.resume + '</p>' +
+                            '<p><a href="' + article.url + '">Read more</a></p>' +
+                            '</div>';
 
-                    articlesContainer.innerHTML += articleHtml;
+                        articlesContainer.innerHTML += articleHtml;
 
-                    document.append(articlesContainer);
+                        allArticles.append(articlesContainer);
+                    }
                 });
 
             } else {
