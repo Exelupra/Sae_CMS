@@ -7,7 +7,6 @@ import 'article.dart';
 class ArticlePage extends StatefulWidget {
   final Article article;
 
-
   ArticlePage({required this.article});
 
   @override
@@ -16,6 +15,7 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   String categoryLabel = '';
+  String authorPseudo = '';
   List<Article> authorArticles = [];
 
   @override
@@ -23,6 +23,7 @@ class _ArticlePageState extends State<ArticlePage> {
     super.initState();
     fetchCategoryLabel();
     fetchAuthorArticles();
+    fetchPseudo(widget.article.author);
   }
 
   Future<void> fetchCategoryLabel() async {
@@ -37,6 +38,7 @@ class _ArticlePageState extends State<ArticlePage> {
       // Handle errors
     }
   }
+
   Future<void> fetchAuthorArticles() async {
     final response = await http.get(Uri.parse(
         'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteurs/${widget.article.author}/articles'));
@@ -54,6 +56,19 @@ class _ArticlePageState extends State<ArticlePage> {
     }
   }
 
+  Future<void> fetchPseudo(String authorId) async {
+    final response = await http.get(Uri.parse(
+        'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteur/$authorId'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final pseudo = jsonData[0]['pseudo'];
+      setState(() {
+        authorPseudo = pseudo;
+      });
+    } else {
+      // Handle errors
+    }
+  }
 
   void navigateToAuthorArticles() {
     if (widget.article.author.isNotEmpty) {
@@ -92,7 +107,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   GestureDetector(
                     onTap: navigateToAuthorArticles,
                     child: Text(
-                      'Auteur: ${widget.article.author}',
+                      'Auteur: $authorPseudo',
                       style: TextStyle(fontSize: 16, color: Colors.blue),
                     ),
                   ),

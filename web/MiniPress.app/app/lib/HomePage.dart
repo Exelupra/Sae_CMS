@@ -75,8 +75,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> fetchPseudo(String authorId) async {
-    print(authorId);
-    print("wolrld");
     final response = await http.get(Uri.parse(
         'http://docketu.iutnc.univ-lorraine.fr:27002/Sae_CMS/web/MiniPress.core/index.php/api/auteur/$authorId'));
     if (response.statusCode == 200) {
