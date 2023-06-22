@@ -29,10 +29,11 @@ function categories(){
     afficherCategories(load("/categories"));
 }
 
-document.addEventListener('DOMContentLoaded',function () {
-    listePlusRecent();
-    categories();
-});
+export function nomAuteur(id){
+    var aut;
+    load("/auteur/" + id).then(auteur => aut = auteur.pseudo)
+    return aut;
+}
 
 listePlusRecent();
 categories();

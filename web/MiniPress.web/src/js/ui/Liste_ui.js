@@ -1,12 +1,9 @@
-import {contenuArticle, listeDeLaCategorie,listePlusRecent, listePlusVieux, listeArticleDeAuteur} from "../ListeArcticle.js";
-import {load} from "../Fetcher.js";
+import {contenuArticle, listeDeLaCategorie,listePlusRecent, listePlusVieux, listeArticleDeAuteur, nomAuteur} from "../ListeArcticle.js";
 
 export function afficherArticles(promesse) {
     var html = "";
     promesse.then(articles => {
-        var auteur;
         articles.forEach(article => {
-            load("/auteur/" + article.auteur).then(auteurn => auteur = auteurn.pseudo);
             html += "<section class='article' value='" + article.id + "'>" +
                 "<img src='" +
                 article.image +
@@ -17,7 +14,7 @@ export function afficherArticles(promesse) {
                 "</h6> <h6 class='auteur' value='" +
                 article.auteur +
                 "'>" +
-                auteur +
+                nomAuteur(article.auteur) +
                 "</h6> </section>";
         })
         document.getElementById("articles").innerHTML = html;
@@ -75,8 +72,6 @@ export function afficherCategories(promesse) {
 
 export function afficherContennuArticle(promesse) {
     promesse.then(article => {
-        var auteur;
-        load("/auteur/" + article.auteur).then(auteurN => auteur = auteurN.pseudo);
         document.getElementById("articles").innerHTML = "<h5>" +
             article.date_de_publication +
             "</h5>"+
@@ -92,7 +87,7 @@ export function afficherContennuArticle(promesse) {
             "<h4 class='auteur' value='" +
             article.auteur +
             "'>" +
-            auteur +
+            nomAuteur(article.auteur) +
             "</h4>";
         document.querySelectorAll(".auteur").forEach(section => {
             section.addEventListener("click", function () {
