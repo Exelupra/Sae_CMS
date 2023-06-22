@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: purple;
+}
+
+h2#titre {
+    text-align: center;
+    margin-top: 2%;
+    color: white;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    background-color: violet;
+    padding: 2%;
+}
+
+#articles {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    margin: 0 2%;
+}
+
+.article {
+    border: 1px solid blueviolet;
+    margin-bottom: 1%;
+    padding: 2%;
+    background-color: white;
+}
+
+.article img {
+    max-width: 95%;
+    max-height: 70%;
+}
+
+#categories {
+    background-color: purple;
+    padding: 2%;
+    margin-left: 2%;
+}
+
+#categories h5 {
+    margin: 0;
+    padding: 1%;
+    cursor: pointer;
+    color: white;
+}
+
+.auteur {
+    cursor: pointer;
+}
+
+#categories h5:hover,
+.article:hover {
+    background-color: white;
+    color: black;
+}

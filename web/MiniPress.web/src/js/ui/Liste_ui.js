@@ -70,8 +70,16 @@ export function afficherContennuArticle(promesse) {
             "<p>" +
             article.contenu +
             "</p>" +
-            "<h4>" +
+            "<h4 class='auteur' value='" +
+            article.auteur +
+            "'>" +
             article.auteur +
             "</h4>";
+        document.querySelectorAll(".auteur").forEach(section => {
+            section.addEventListener("click", function () {
+                listeArticleDeAuteur(section.getAttribute("value"),
+                    document.getElementById("titre").innerText = "Article de " + section.getAttribute("value"));
+            });
+        })
     })
 }

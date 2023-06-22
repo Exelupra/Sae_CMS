@@ -17,7 +17,7 @@ export function contenuArticle(id){
 
 export function listeArticleDeAuteur(nom){
     document.getElementById("titre").innerText = "Article d'un auteur"; // a retirée
-    afficherArticles(load("/auteur/" + nom + "/articles"));
+    afficherArticles(load("/auteurs/" + nom + "/articles"));
 }
 
 function categories(){
