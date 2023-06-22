@@ -14,14 +14,11 @@ Eloquent::init(__DIR__.'/conf.ini');
 
 $twig = Twig::create(__DIR__.'/../view', ['cache' => false]);
 
+if(isset($_SESSION['user'])){
+    $twig->getEnvironment()->addGlobal('user', json_decode($_SESSION['user']));
+}
+
+
 $app->add(TwigMiddleware::create($app, $twig));
-
-// Créez une instance de SupabaseClient avec votre URL Supabase et votre clé d'API
-/*$supabaseUrl = 'VOTRE_URL_SUPABASE';
-$supabaseKey = 'VOTRE_CLE_API_SUPABASE';
-$supabase = new SupabaseClient($supabaseUrl, $supabaseKey);
-
-// Ajoutez l'instance de SupabaseClient à l'application Slim
-$app->getContainer()->set(SupabaseClient::class, $supabase);*/
 
 return $app;

@@ -1,3 +1,5 @@
+{% set cssPath = '../src/css/style.css' %}
+
 {% extends 'header.twig' %}
 
 {% block title %}Article{% endblock %}
@@ -6,13 +8,101 @@
     {% if isset == false %}
         <h2>Veuillez vous connecter pour créer un article</h2>
     {% else %}
-        <h3><a href="{{ url_for('makeArticle') }}">Créer un articles</a></h3>
-    {% endif %}
-    {% for article in articles %}
-        <div class="article">
-            <h2>{{ article.titre }}</h2>
-            <p>{{ article.resume }}</p>
-            <p><a href="/article/{{ article.id }}">Read more</a></p>
+        <input type="hidden" id="url" name="url" value="{{ url_for('madeArticle') }}">
+        <input type="hidden" id="csrf" name="csrf" value="{{ data.csrf }}">
+        <input type="hidden" id="auteur" name="auteur" value="{{ user.id }}">
+        <div id="addArticle">
+            <h1>Ajouter un article</h1>
         </div>
+    {% endif %}
+    <div id="categ">
+        <select name="categorie" id="categorie">
+            <option value="0" selected>Choisir une catégorie</option>
+        {% for categorie in categories %}
+            <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    
+    <div id="allArticles">
+    {% for article in articles %}
+            <div class="article" style="display:flex;">
+                <div class="textart" style="margin:0px 15px">
+                    <h2>{{ article.titre }}</h2>
+                    {{ article.resume }}
+                    <h3><a href="{{ url_for('articleById',{'id': article.id}) }}">Read more</a></h3>
+                </div>
+                
+                <div class="buttonart" style="display:flex; flex-direction:column; justify-content: center; margin:0px 15px">
+                {% if user.admin == 1 %}
+                    <form action="{{ url_for('deleteArticle',{'id':article.id}) }}" method="post">
+                        <input type="hidden" name="page" value="article">
+                        <input type="hidden" name="id" value="article">
+                        <input type="submit" value="Supprimer">
+                    </form>
+                    <form action="{{ url_for('togglePublish') }}" method="post">
+                        <input type="hidden" name="id" value="{{ article.id }}">
+                        <input type="hidden" name="page" value="article">
+                        <input type="submit" value="Dépublier">
+                    </form>
+                {% endif %}
+                </div>
+            </div>
     {% endfor %}
+    </div>
+    <script type="module" src="../src/module/categoriesSelect.js" defer></script>
+    <script>
+        var add = document.getElementById('addArticle');
+
+        if(add != null){
+            add.addEventListener('click', function() {
+                var categ = document.getElementById('categ');
+                var url = document.getElementById('url').value;
+                add.removeEventListener('click', arguments.callee, false);
+                var user = document.getElementById('auteur');
+                var csrf = document.getElementById('csrf');
+                add.innerHTML = "";
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', url);
+                form.style = "color: white;"+
+                        "background: #0c5460;"+
+                        "padding: 10px;"+
+                        "border-radius: 10px;"+
+                        "box-shadow: 0 0 10px #0c5460;"+
+                        "display: flex;";
+                form.appendChild(csrf);
+                form.appendChild(user);
+                form.innerHTML += 
+                    '<div class="addArt">'+
+                        '<label for="titre">Titre</label>'+
+                        '<input type="text" name="titre">'+
+                    '</div><div class="addArt">'+
+                        '<label for="resume">Résumé</label>'+
+                        '<input type="text" name="resume">'+
+                    '</div><div class="addArt">'+
+                        '<label for="contenu">Contenu</label>'+
+                        '<textarea name="contenu"></textarea>'+
+                    '</div><div class="addArt">'+
+                        '<label for="image">Image</label>'+
+                        '<input type="text" name="image">'+
+                    '</div><div class="addArt">'+
+                        '<label for="categorie">Catégorie</label>'+
+                        categ.innerHTML+
+                    '</div><div class="addArt">'+
+                        '<input type="submit" name="action" value="Créer l\'article">'+
+                        '<input type="submit" name="action" value="Créer et publier l\'article">'+
+                    '</div>';
+                add.appendChild(form);
+
+                let addArt = form.getElementsByClassName('addArt');
+                Array.from(addArt).forEach(function(element) {
+                    element.style.display = "flex";
+                    element.style.flexDirection = "column";
+                    element.style.margin = "0 10px";
+                });
+
+            });
+        }
+    </script>
 {% endblock %}
