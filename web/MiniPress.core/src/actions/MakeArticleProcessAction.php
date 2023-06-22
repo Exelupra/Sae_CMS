@@ -32,6 +32,7 @@ class MakeArticleProcessAction extends AbstractAction {
             'contenu' => $post_data['contenu'] ?? 
                 throw new HttpBadRequestException($request, "contenu manquante"),
             'cat_id' => $post_data['categorie'],
+            'image' => $post_data['image'],
             'auteur' => json_decode($_SESSION['user'])->id ??
                 throw new HttpBadRequestException($request, "auteur manquant"),
         ];

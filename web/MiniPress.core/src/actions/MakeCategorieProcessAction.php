@@ -32,7 +32,7 @@ class MakeCategorieProcessAction extends AbstractAction {
 
         $categorie = CategorieService::makeCategorie($data);
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routeParser->urlFor('makeArticle');
+        $url = $routeParser->urlFor('allCategorie');
         return $response->withHeader('Location',$url)->withStatus(302);
 
     }

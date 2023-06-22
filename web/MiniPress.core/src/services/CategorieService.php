@@ -29,4 +29,16 @@ class CategorieService {
         $categorie->save();
     }
 
+    public static function updateCategorie($data){
+        $categorie = Categorie::find($data['id']);
+        $categorie->libelle = $data['libelle'];
+        $categorie->description = $data['description'];
+        $categorie->save();
+    }
+
+    public static function deleteCategorie($id){
+        $categorie = Categorie::find($id);
+        $categorie->delete();
+    }
+
 }

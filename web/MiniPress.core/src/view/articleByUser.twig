@@ -1,3 +1,5 @@
+{% set cssPath = '../src/css/style.css' %}
+
 {% extends 'header.twig' %}
 
 {% block title %}Articles de {{ user.mail }} {% endblock %}
@@ -36,6 +38,7 @@
                 <input type="submit" value="Dépublier">
             </form>
             <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="hidden" name="id" value="{{ article.id }}">
                 <input type="hidden" name="page" value="articleByUser">
                 <input type="submit" value="Supprimer">
