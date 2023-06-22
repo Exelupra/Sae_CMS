@@ -13,12 +13,12 @@
 
 {% for categorie in categories %}
     <div style="display:flex; margin:15px">
-        <div class="categ">
+        <div class="categ" style="margin:0px 15px">
             <input type="hidden" id="modif" value="{{ url_for('updateCategorie',{'id':categorie.id}) }}">
             <h2>{{ categorie.libelle }}</h2>
             <p><h3>{{ categorie.description }}</h3></p>
         </div>
-        <div class="buttons">
+        <div class="buttons" style="display:flex; flex-direction:column; justify-content: center; margin:0px 15px">
             <button class="modif">Modifier</button>
             <form action="{{ url_for('deleteCategorie', {'id': categorie.id}) }}" method="post">
                 <input type="hidden" name="csrf" value="{{ data.csrf }}">

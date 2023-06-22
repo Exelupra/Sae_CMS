@@ -12,21 +12,26 @@
     {% for utilisateur in utilisateurs %}
     
         {% if utilisateur.id != user.id %}
-            <div>
-                <h3>{{ utilisateur.pseudo }}</h3>
-                <h4>{{ utilisateur.nom }} {{ utilisateur.prenom }}</h4>
-                <h4>{{ utilisateur.mail }}</h4>
-
-                {% if utilisateur.admin == 1 %}
-                    <h4>Admin</h4>
-                {% else %}
-                    <h4>Utilisateur</h4>
-                {% endif %}
-
+            <div style="display:flex; flexDirection: column">
+                <div style="display: flex;">
+                    <div style="margin: 0px 15px">
+                        <h3>{{ utilisateur.pseudo }}</h3>
+                        <h4>{{ utilisateur.nom }} {{ utilisateur.prenom }}</h4>
+                    </div><div>
+                        <h4>{{ utilisateur.mail }}</h4>
+                        {% if utilisateur.admin == 1 %}
+                            <h4>Admin</h4>
+                        {% else %}
+                            <h4>Utilisateur</h4>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="display:flex;align-items: center; margin: 0px 15px">
                 <form action="{{ url_for('toggleAdmin', {'id': utilisateur.id}) }}" method="post">
                     <input type="hidden" name="id" value="{{ utilisateur.id }}">
-                    <input type="submit" value="Toggle Admin">
+                    <input type="submit" value="{% if utilisateur.admin == 1 %}Retirer les droits d'administrateur{% else %}Donner les droits d'administrateur{% endif %}">
                 </form>
+                </div>
             </div>
         {% endif %}
 

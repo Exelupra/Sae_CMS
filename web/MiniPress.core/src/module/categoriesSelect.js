@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArticles(categorieId);
     });
 function updateArticles(categorieId) {
-    var url = '/api/categorie/' + categorieId + '/articles';
+    var url = '../api/categorie/' + categorieId + '/articles';
     fetch(url)
         .then(function(response) {
             if (response.ok) {

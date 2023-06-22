@@ -36,6 +36,7 @@
                 <input type="submit" value="Dépublier">
             </form>
             <form action="{{ url_for('deleteArticle',{'id': article.id}) }}" method="post">
+                <input type="hidden" name="page" value="articleByUser">
                 <input type="hidden" name="id" value="{{ article.id }}">
                 <input type="hidden" name="page" value="articleByUser">
                 <input type="submit" value="Supprimer">
